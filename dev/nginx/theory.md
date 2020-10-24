@@ -10,3 +10,6 @@ master进程先建立好需要listen的socket，然后fork生成子进程workers
 
 Nginx对惊群现象的处理：nginx提供了一个accept_mutex，这是一个加在accept上的一把共享锁。有了这把锁之后，同一时刻，就只会有一个进程在accpet连接，这样就不会有惊群问题了。accept_mutex是一个可控选项，我们可以显示地关掉，默认是打开的。
 
+目前新版的Linux内核中增加了EPOLLEXCLUSIVE选项，nginx从1.11.3版本之后也增加了对NGX_EXCLUSIVE_EVENT选项的支持，这样就可以避免多worker的epoll出现的惊群效应，从此之后accept_mutex从默认的on变成了默认off。
+
+参考：[accept_mutex与性能的关系 (nginx)](https://www.cnblogs.com/sxhlinux/p/6254396.html?utm_source=debugrun&utm_medium=referral)
