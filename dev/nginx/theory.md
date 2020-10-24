@@ -1,0 +1,12 @@
+# 请求处理
+
+## nginx多个worker如何处理相同端口的请求
+
+master进程先建立好需要listen的socket，然后fork生成子进程workers，继承socket（此时workers子进程们都继承了父进程master的所有属性，包括已经建立好的socket，但不是同一个socket，只是每个进程的这个socket会监控在同一个ip地址与端口，这个在网络协议里面是允许的。
+
+当一个连接进入，产生惊群现象。所有在accept在这个socket上面的进程，都会收到通知，而只有一个进程可以accept这个连接，其它的则accept失败。
+
+惊群现象：指一个fd的事件被触发后，等候这个fd的所有线程/进程都被唤醒。虽然都唤醒，但是只有一个会去响应。最常见的例子就是对于socket的accept操作，当多个用户进程/线程监听在同一个端口上时，由于实际只可能accept一次，因此就会产生惊群现象。
+
+Nginx对惊群现象的处理：nginx提供了一个accept_mutex，这是一个加在accept上的一把共享锁。有了这把锁之后，同一时刻，就只会有一个进程在accpet连接，这样就不会有惊群问题了。accept_mutex是一个可控选项，我们可以显示地关掉，默认是打开的。
+
