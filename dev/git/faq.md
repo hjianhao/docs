@@ -11,7 +11,7 @@
 
 ## 配置用户和邮件
 
-```
+``` bash
 git config --global user.name "hjianhao"
 git config --global user.email "hjianhao@hotmail.com"
 
