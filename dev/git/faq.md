@@ -16,3 +16,9 @@ git config --global user.name "hjianhao"
 git config --global user.email "hjianhao@hotmail.com"
 
 ```
+
+## 不做证书认证
+
+```
+git config --global http.sslVerify "false"
+```
