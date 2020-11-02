@@ -1,4 +1,6 @@
-# 设置proxy后如何解决unable to verify the first certificate问题
+# 网络配置
+
+## 设置proxy后如何解决unable to verify the first certificate问题
 
 使用公司的proxy后，访问某个网站的证书的根证书变成了公司的根证书。所以在校验证书链时，node默认带的可信证书里面没有包含公司的根证书
 
