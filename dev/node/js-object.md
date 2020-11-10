@@ -99,3 +99,83 @@ var o3 = Object.create (Object.prototype); // 和{}与new Object () 一致
 属性分类：
 - 自有属性（own property）是直接在对象中定义的属性。
 - 继承属性（inherited property）是在对象的原型对象中定义的属性。
+
+## 继承
+
+### 实现
+
+使用原型创建对象来模实现继承：Object.create (原型对象)
+
+```javascript
+var o = {x : 1, y : 2}
+var p = Object.create (o)
+p.z = 3
+var q = Object.create (p)
+console.log (q.x)
+q.x = 100
+console.log (o.x)
+```
+
+以上代码
+对象o有一个对象属性__proto__, 其值是Object.prototype
+对象p以对象o为原型进行创建
+这样p就有了一个对象属性__proto__，其值是o
+对象q以对象p为原型进行创建
+这样q就有了一个对象属性__proto__, 其值是p
+
+<!--
+
+``` plantuml
+
+Object Object.prototype
+
+Object o {
+  +x
+  +y
+}
+o *- Object.prototype : "__proto__"
+
+Object p {
+  +z
+}
+p *- o : "__proto__"
+
+Object q
+q *- p : "__proto__"
+
+```
+
+-->
+
+![](https://www.planttext.com/api/plantuml/img/SoWkIImgAStDuUBoJyfAJIvHW51w1KNv9VabbGMfS8byXMek1GNj2X1HoLNBbQ-WfOkXMi5AGIa-7ioDZrU2wos0wAq2QkCg0EdBnw6ma8kh42HVW2xla9gN0dGc0000)
+
+
+这样通过__proto__的链式指向，可以形成一个继承链。
+
+在读取q.x属性时，会在当前对象查找，没有找到会在q.__proto__指向的对象p查找，没有找到会到p.__proto__指向的对象o查找，就找到了，值是1
+
+如果给q.x赋值(q.x = 100)，会直接在q上添加一个x属性，再访问q.x的时候，其值是100，而不会去修改__proto__链上对象o的x属性
+
+```javascript
+var o = {
+    x : 1, 
+    y : 2, 
+    get r () {
+        return 3;
+    }
+}
+
+console.log (o.r)
+
+var p = Object.create (o)
+p.z = 3
+p.r = 5
+
+console.log (p.r)
+```
+如果原型对象o的属性r是只读的，那么p以o作为原型创建对象，执行p.r = 5，会让p同样添加一个只读的r属性，这个属性的get函数也指向o定义的get函数。 但由于属性时只读的，p.r的值还是3，不会修改为5
+
+
+
+
+
