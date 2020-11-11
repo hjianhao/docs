@@ -15,6 +15,19 @@
 
 # 网络配置
 
+## 设置代理
+
+```bash
+npm config set proxy <用户名>:<密码>@<域名>:<端口>
+npm config set http-proxy <用户名>:<密码>@<域名>:<端口>
+npm config set https-proxy <用户名>:<密码>@<域名>:<端口>
+```
+
+## 自定义证书文件
+```bash
+npm config set cafile <path to cert.pem>
+```
+
 ## 不校验证书
 执行以下命令：
 ``` bash
@@ -69,4 +82,12 @@ npm install --save-dev moduleName 命令
 
 总结
 devDependencies 节点下的模块是我们在开发时需要用的，比如项目中使用的 gulp ，压缩css、js的模块。这些模块在我们的项目部署后是不需要的，所以我们可以使用 -save-dev 的形式安装。像 express 这些模块是项目运行必备的，应该安装在 dependencies 节点下，所以我们应该使用 -save 的形式安装。
+
+# cnpm
+
+## 安装
+``` bash
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
+
 
