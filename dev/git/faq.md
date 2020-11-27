@@ -10,6 +10,8 @@
 - [操作](#操作)
   - [将本地工程推送到git仓库](#将本地工程推送到git仓库)
   - [移动文件和目录](#移动文件和目录)
+  - [添加文件](#添加文件)
+    - [撤销添加](#撤销添加)
 
 <!-- /code_chunk_output -->
 
@@ -62,3 +64,16 @@ git commit -m "move hello dir to electron"
 git push -u origin master
 ```
 
+## 添加文件
+
+### 撤销添加
+
+撤销所有添加的文件
+``` bash
+git reset HEAD
+```
+
+撤销某个错误添加的问题
+``` bash
+git reset HEAD <路径/文件名>
+```
