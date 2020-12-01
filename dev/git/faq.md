@@ -41,6 +41,18 @@ git config --global user.email "hjianhao@hotmail.com"
 git config --global http.sslVerify "false"
 ```
 
+## GitHub的Key配置
+
+本机执行一下命令
+```bash
+ssh-keygen -t ed25519 -C "hjianhao@hotmial.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+然后将~/.ssh/id_ed25519.pub文件内容加入到github的SSH KEY中
+
+
 # 操作
 
 ## 将本地工程推送到git仓库
@@ -77,3 +89,9 @@ git reset HEAD
 ``` bash
 git reset HEAD <路径/文件名>
 ```
+
+## 如何找到所有未添加到库的文件
+```bash
+git status --untracked-files=all
+```
+这里包括了所有子目录的未添加文件
