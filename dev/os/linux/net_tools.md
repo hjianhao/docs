@@ -1,8 +1,7 @@
 # curl
 
 ## 代理
-方法一： 设置http_
-proxy和https_proxy环境变量
+方法一： 设置http_proxy和https_proxy环境变量
 方法二： 
 ``` bash
 curl -x http://user:password@domain:port <url>
@@ -13,6 +12,15 @@ curl -x http://user:password@domain:port <url>
 curl <url> -k
 ```
 
+## 配置文件
+基本不变的配置可以放在~/.curlrc文件中
+配置文件例子：
+``` bash
+proxy = <domain:port> # 代理服务器地址和端口
+proxy-user = <user:passwd> # 代理的用户名密码
+cacert = <path/to/cert.pem> # 设置认证proxy的证书
+noproxy = ... # 设置不代理的地址
+```
 
 # wget
 
