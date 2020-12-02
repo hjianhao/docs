@@ -109,3 +109,38 @@ git reset HEAD <路径/文件名>
 git status --untracked-files=all
 ```
 这里包括了所有子目录的未添加文件
+
+# 遇到的问题
+
+## Ubuntu系统运行git与github服务器交互时出现 GnuTLS错误
+
+详细错误
+error: RPC failed; curl 56 GnuTLS recv error (-110): The TLS connection was non-properly terminated.
+
+原因：
+Note: This solution is not just limited to codecommit but also for other Ubuntu gnults_handshake related issues.
+If you have AWS cli installed in ubuntu 14.04 and working with AWS codecommit, you are likely to get “gnutls_handshake() failed” error when you try to clone a repository created in codecommit. Do not worry about it, we have a solution for it.
+
+问题解决方案（亲自验证通过）
+``` bash
+# 安装必要的依赖及环境
+sudo apt-get install build-essential fakeroot dpkg-dev
+# 建个目录放 新编译的 git
+mkdir ~/git-rectify
+# 获取 git 源码
+cd ~/git-rectify
+sudo apt-get source git
+# 安装 git 的依赖
+sudo apt-get build-dep git
+# 安装 libcurl
+sudo apt-get install libcurl4-openssl-de
+# 进入 git 目录，这里目录名视你安装的版本
+cd git-2.7.4/
+# 修改两个文件后重新编译 git
+vim ./debian/control # 把libcurl4-gnutls-dev 修改为 libcurl4-openssl-dev
+vim ./debian/rules # 把TEST=test整行删除
+sudo dpkg-buildpackage -rfakeroot -b
+# 回到上一级目录，安装编译好的安装包
+cd .. # 也就是在 ~/git-rectify 目录下
+sudo dpkg -i git_2.7.4-0ubuntu0.4_amd64.deb
+```
