@@ -26,3 +26,9 @@ LxRunOffline install -n <WSL名称> -d <安装系统的路径> -f <镜像文件�
 使用LxRunOffline自定义配置WSL，在Windows下拥有你的完美Linux子系统
 
 https://www.niconya.com/bv/555d/
+
+# 参考文档
+
+## 官方文档
+
+https://docs.microsoft.com/zh-cn/windows/wsl/install-manual
