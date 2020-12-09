@@ -1,6 +1,26 @@
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
+<!-- code_chunk_output -->
+
+- [配置](#配置)
+  - [git config作用范围](#git-config作用范围)
+  - [配置用户和邮件](#配置用户和邮件)
+  - [配置代理](#配置代理)
+  - [不做证书认证](#不做证书认证)
+  - [GitHub的Key配置](#github的key配置)
+- [操作](#操作)
+  - [将本地工程推送到git仓库](#将本地工程推送到git仓库)
+  - [移动文件和目录](#移动文件和目录)
+  - [删除文件夹](#删除文件夹)
+  - [分支操作](#分支操作)
+  - [添加文件](#添加文件)
+    - [撤销添加](#撤销添加)
+  - [如何找到所有未添加到库的文件](#如何找到所有未添加到库的文件)
+- [遇到的问题](#遇到的问题)
+  - [Ubuntu系统运行git与github服务器交互时出现 GnuTLS错误](#ubuntu系统运行git与github服务器交互时出现-gnutls错误)
+
+<!-- /code_chunk_output -->
 
 # 配置
 
@@ -74,6 +94,14 @@ mv hello electron
 git add .
 git commit -m "move hello dir to electron"
 git push -u origin master
+```
+
+## 删除文件夹
+
+``` bash
+git rm <文件夹> -f -r
+git commit -m "<注释>"
+git push -u origin
 ```
 
 ## 分支操作
