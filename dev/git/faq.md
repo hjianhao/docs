@@ -1,20 +1,6 @@
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
-<!-- code_chunk_output -->
-
-- [配置](#配置)
-  - [git config作用范围](#git-config作用范围)
-  - [配置用户和邮件](#配置用户和邮件)
-  - [不做证书认证](#不做证书认证)
-- [操作](#操作)
-  - [将本地工程推送到git仓库](#将本地工程推送到git仓库)
-  - [移动文件和目录](#移动文件和目录)
-  - [添加文件](#添加文件)
-    - [撤销添加](#撤销添加)
-
-<!-- /code_chunk_output -->
-
 
 # 配置
 
