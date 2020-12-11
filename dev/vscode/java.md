@@ -1,3 +1,20 @@
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Gradle](#gradle)
+  - [安装](#安装)
+  - [vscode插件安装](#vscode插件安装)
+  - [vscode设置](#vscode设置)
+  - [使用Gradle Wrapper时加速下载Gradle](#使用gradle-wrapper时加速下载gradle)
+  - [Debug Gradle build生成的代码](#debug-gradle-build生成的代码)
+- [Java](#java)
+  - [插件安装](#插件安装)
+- [参考材料](#参考材料)
+
+<!-- /code_chunk_output -->
+
 # Gradle
 
 ## 安装 
@@ -54,6 +71,15 @@ D:\Dev\Gradle\repository
             "classPaths": ["app/build/classes/java/main"]
         }
 ```
+
+因为Language support for Java ™ for Visual Studio Code也支持简单的Gradle
+而其生成的结果目录是bin
+在调试的时候会先执行build，就会去bin目录生成结果，而不是Gradle Tasks插件生成的build目录下
+所以需要在setting.json中关闭Debug前强制build的行为
+```json
+"java.debug.settings.forceBuildBeforeLaunch": false,
+```
+
 
 # Java
 
