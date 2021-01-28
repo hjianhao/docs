@@ -108,7 +108,7 @@ git push -u origin
 
 查看远程分支
 ``` bash
-git branch -a
+git branch -r
 ```
 
 查看本地分支
@@ -116,14 +116,29 @@ git branch -a
 git branch
 ```
 
+查看本地和远程的分支
+``` bash
+git branch -a
+```
+
 切换本地没有的分支
 ``` bash
 git checkout -b <本地分支名称，如master> <远程分支名称，如origin/master>
 ```
 
+创建本地分支
+``` bash
+git branch <本地分支名>
+```
+
 切换本地已有的分支
 ``` bash
 git checkout <本地分支名称>
+```
+
+将本地分支push到github上指定的分支，如果远程分支不存在，则会自动创建
+``` bash
+git push origin <远程分支名>
 ```
 
 ## 添加文件
