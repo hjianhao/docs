@@ -14,6 +14,7 @@
   - [运行](#运行)
   - [Roon配置](#roon配置)
   - [最终效果](#最终效果)
+  - [使用docker运行squeeze2upnp](#使用docker运行squeeze2upnp)
 - [通过VPN实现远程ROON](#通过vpn实现远程roon)
   - [打通WAN连接服务器](#打通wan连接服务器)
   - [搭建VPN服务器](#搭建vpn服务器)
@@ -359,6 +360,46 @@ squeeze2upnp-x86-64-static -x config.xml
 这下，就可以在Roon系统中使用Huawei智能音箱了
 ![打开SqueezeBox设置](images/roon-final.png)
 
+
+## 使用docker运行squeeze2upnp
+
+上面的squeeze2upnp安装过程依赖命令行，有点复杂，我简单做了一个docker镜像，在群晖上可以通过docker套件的界面来部署squeeze2upnp
+
+首先需要在群晖上安装官方的docker套件：
+![Docker套件](images/docker-package.png)
+
+打开Docker套件界面搜索镜像hjianhao/hjianhao-squeeze2upnp
+![搜索镜像](images/docker-search.png)
+
+搜索到镜像后下载，并在映像界面启动容器
+![启动容器](images/docker-images.png)
+
+选择高级设置
+![高级设置](images/docker-create-container.png)
+
+在NAS上创建一个保存配置文件(config.xml)的目录，并挂接到容器的/config目录
+![挂载配置目录](images/docker-mount.png)
+
+因为squeezeupnp涉及范围端口的使用，所以使用host网络
+![配置网络](images/docker-network.png)
+
+应用后，一路“下一步”即可启动容器。
+![创建容器](images/docker-container-start.png)
+
+第一次容器虽然启动了，但是功能是失效的，从上面的说明可以看到此时还没有配置文件（config.xml), 点击“详情”按钮弹出容器信息窗口，从“日志”标签中可以看到，加载配置文件失败
+![启动失败日志](images/docker-container-log.png)
+
+此时我们进入“终端”标签，执行/squeeze2upnp/find.sh，用于发现DLNA Render设备，并生成配置文件
+![发现设备](images/docker-terminal.png)
+
+执行完成后，使用“Ctrl+D”退出并停止容器运行。此时在你挂载的配置文件目录中就会有"Config.xml"配置文件。
+![配置文件](images/config-file.png)
+
+然后配置按前面对配置文件的描述修改配置文件，再重启容器即可。重启容器前最好将自动重启勾上
+![配置文件](images/docker-container-restart.png)
+
+启动成功后，只有一行日志
+![配置文件](images/docker-successful.png)
 
 # 通过VPN实现远程ROON
 

@@ -141,6 +141,12 @@ git checkout <本地分支名称>
 git push origin <远程分支名>
 ```
 
+将一个分支的文件合并到另一个分支
+``` bash
+git checkout <目标分支>
+git checkout <源文分支> <文件路径>
+```
+
 ## 添加文件
 
 ### 撤销添加
