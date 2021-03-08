@@ -15,6 +15,7 @@
   - [Roon配置](#roon配置)
   - [最终效果](#最终效果)
   - [使用docker运行squeeze2upnp](#使用docker运行squeeze2upnp)
+- [通过桥连接解码器](#通过桥连接解码器)
 - [通过VPN实现远程ROON](#通过vpn实现远程roon)
   - [打通WAN连接服务器](#打通wan连接服务器)
   - [搭建VPN服务器](#搭建vpn服务器)
@@ -133,6 +134,32 @@ node "群晖NAS\n(J1900四核/8G内存,\n4*4T Raid5阵列)" as nas {
     component "L2TP/IPSec Server" as svpn
     roon <--> svpn : 转发
 }
+
+node "Raspberry Pi" as pi {
+    component "openwrt\n(OpenClash)" as openwrt
+    roon -> openwrt : 梯子转发
+    component "Roon bridge" as rb
+    openwrt -[hidden]-> rb
+    roon -> rb : RAAT协议
+    rb -> bdac : USB input
+}
+
+cloud TIDAL
+cloud Qobuz
+cloud RoonCloud
+
+openwrt -u-> TIDAL
+openwrt -u-> Qobuz
+openwrt -u-> RoonCloud
+
+node "Bed Room \n Hearing Amplifiers" as amp1
+
+node "Bed Room\n Raspberry Pi" as pi1 {
+    component "Roon bridge" as rb1
+    roon -> rb1 : RAAT协议
+    rb1 -> amp1 : USB input
+}
+
 
 node "客厅PC" as pc {
     component "Roon APP" as roon3
@@ -400,6 +427,59 @@ squeeze2upnp-x86-64-static -x config.xml
 
 启动成功后，只有一行日志
 ![配置文件](images/docker-successful.png)
+
+# 通过桥连接解码器
+
+除了上面提到的通过squeeze2upnp转换用DLNA连接解码器外，还有其他的连接解码器的方式：
+
+1. 也可以通过RAAT接入Roon Ready的解码器（前提是解码器支持Roon Ready）
+![](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuShBJqbL2ChFprD8B5Oe0j8G4IKNH-UOF0smH51gOagbfX98GKfYCbSHI4pN3iHMi588SdGCuN98pKi16WO0)
+<!-->
+``` plantuml
+node Roon as roon
+node "DAC\n(Roon Ready)" as dac
+roon -> dac : RAAT
+```
+-->
+这种方式比较简单，只要你的解码器支持Roon Ready且解码器和Roon core在同一个局域网网段，就可以相互发现，不用配置。因为简单且我的解码器不支持Roon Ready就不在这里赘述了
+
+
+2. Roon Core通过USB输出接入解码器，包括直接接入到解码器的USB输入，或者通过解码器界面转换为同轴和光纤输入解码器
+![](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuShBJqbL2ChFprD8B5Oe0j8G4IKNH-UOF0smH51gOagbfX98GKfYCbSHI4pN3iHMi5883NPIyCmhA2s1weFmIrABqXAJKy5wClFIO7f0R1GzG3x2AEVyn8hCn1nz_uAIp6GWxUWQ79C7KUUGcfS2T2q0)
+<!--
+``` plantuml
+node Roon as roon
+node "DAC\n(Roon Ready)" as dac
+roon -> dac : USB Input
+node "USB Interface" as inf
+roon -> inf : USB Input
+inf -> dac : Coaxial/Optical/AES\nInput
+```
+-->
+
+3. Roon Core通过RAAT协议接入Roon Bridge，然后Roon Bridge接入解码器，接入方式和上面说的Roon Core类似
+``` plantuml
+node "Roon Core" as roon
+node "Roon Bridge" as bridge
+roon -> bridge : RAAT
+node "DAC\n(Roon Ready)" as dac
+bridge -> dac : USB Input
+node "USB Interface" as inf
+bridge -> inf : USB Input
+inf -> dac : Coaxial/Optical/AES\nInput
+
+```
+
+这里主要介绍第三种，因为Bridge可以:
+1. 让Roon Core和解码器的位置摆放更为灵活，只要Bridge接近解码器即可。
+2. Bridge使用树莓派这种低功耗设备可以比Core更容易避免干扰，同时电源也更好处理。
+3. 多个Bridge可以让Roon接入和控制多个房间的音响设备。
+
+因为我个人的主音响系统以DLNA为主，因为我的解码器出声最好的就是DLNA接入，其他数字接入都稍微差一些。所以树莓派做Bridge一个是做对比测试，另一个方面是作为我一个房间耳放的接入。这样我就可以用Roon控制在我的耳放上播放音乐。
+
+树莓派做Roon Bridge是性价比非常高的Roon Bridge设备，功耗低，价格低，USB输出较好，I2S数字音频卡多，电源好处理。
+
+## 在树莓派上装
 
 # 通过VPN实现远程ROON
 
