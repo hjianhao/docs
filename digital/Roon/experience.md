@@ -8,6 +8,7 @@
 - [系统迁移](#系统迁移)
   - [我之前听音系统的网络拓扑](#我之前听音系统的网络拓扑)
   - [引入Roon后听音系统网络拓扑](#引入roon后听音系统网络拓扑)
+- [安装Roon](#安装roon)
 - [如何为Roon增加DLNA输出](#如何为roon增加dlna输出)
   - [安装](#安装)
   - [DLNA设备发现](#dlna设备发现)
@@ -16,10 +17,14 @@
   - [最终效果](#最终效果)
   - [使用docker运行squeeze2upnp](#使用docker运行squeeze2upnp)
 - [通过桥连接解码器](#通过桥连接解码器)
+  - [在树莓派上装Roon Bridge](#在树莓派上装roon-bridge)
 - [通过VPN实现远程ROON](#通过vpn实现远程roon)
   - [打通WAN连接服务器](#打通wan连接服务器)
   - [搭建VPN服务器](#搭建vpn服务器)
   - [远程机器连接VPN服务器](#远程机器连接vpn服务器)
+- [使用旁路由让NAS科学上网](#使用旁路由让nas科学上网)
+  - [安装openwrt](#安装openwrt)
+  - [科学上网设置](#科学上网设置)
 
 <!-- /code_chunk_output -->
 
@@ -104,7 +109,6 @@ node "远程手机" as rphone {
 }
 
 ```
-
 
 ## 引入Roon后听音系统网络拓扑
 
@@ -208,6 +212,24 @@ node "远程手机" as rphone {
 }
 
 ```
+
+# 安装Roon
+
+1. 在这个网站下载群晖NAS的套件 ： https://roononnas.org/de/synology-2/
+
+2. 在共享文件夹中创建一个名字叫"RoonServer"的共享目录
+强烈建议使用SSD安装Roon，因为Roon服务器的随机访问速度很关键，我的NAS没有SSD安装槽位，只能通过USB 3.0的盒子接入SATA3固态硬盘。
+如果接入外置存储，将外置存储的名字改为RoonServer
+![](images/roon-share.png)
+
+3. 选择手动安装套件，安装过程比较长
+![](images/roon-install.png)
+
+手机，PC, MAC, Pad的客户端可以参考官网安装：
+https://roonlabs.com/downloads
+
+以Windows为例，在PC上启动Roon，就回发现群晖NAS的Core，连接就可以使用
+![](images/roon-connection.png)
 
 # 如何为Roon增加DLNA输出
 
@@ -433,20 +455,19 @@ squeeze2upnp-x86-64-static -x config.xml
 除了上面提到的通过squeeze2upnp转换用DLNA连接解码器外，还有其他的连接解码器的方式：
 
 1. 也可以通过RAAT接入Roon Ready的解码器（前提是解码器支持Roon Ready）
-![](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuShBJqbL2ChFprD8B5Oe0j8G4IKNH-UOF0smH51gOagbfX98GKfYCbSHI4pN3iHMi588SdGCuN98pKi16WO0)
-<!-->
+
+
 ``` plantuml
 node Roon as roon
 node "DAC\n(Roon Ready)" as dac
 roon -> dac : RAAT
 ```
--->
+
 这种方式比较简单，只要你的解码器支持Roon Ready且解码器和Roon core在同一个局域网网段，就可以相互发现，不用配置。因为简单且我的解码器不支持Roon Ready就不在这里赘述了
 
 
 2. Roon Core通过USB输出接入解码器，包括直接接入到解码器的USB输入，或者通过解码器界面转换为同轴和光纤输入解码器
-![](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuShBJqbL2ChFprD8B5Oe0j8G4IKNH-UOF0smH51gOagbfX98GKfYCbSHI4pN3iHMi5883NPIyCmhA2s1weFmIrABqXAJKy5wClFIO7f0R1GzG3x2AEVyn8hCn1nz_uAIp6GWxUWQ79C7KUUGcfS2T2q0)
-<!--
+
 ``` plantuml
 node Roon as roon
 node "DAC\n(Roon Ready)" as dac
@@ -455,9 +476,9 @@ node "USB Interface" as inf
 roon -> inf : USB Input
 inf -> dac : Coaxial/Optical/AES\nInput
 ```
--->
 
 3. Roon Core通过RAAT协议接入Roon Bridge，然后Roon Bridge接入解码器，接入方式和上面说的Roon Core类似
+
 ``` plantuml
 node "Roon Core" as roon
 node "Roon Bridge" as bridge
@@ -479,7 +500,31 @@ inf -> dac : Coaxial/Optical/AES\nInput
 
 树莓派做Roon Bridge是性价比非常高的Roon Bridge设备，功耗低，价格低，USB输出较好，I2S数字音频卡多，电源好处理。
 
-## 在树莓派上装
+## 在树莓派上装Roon Bridge
+
+如果树莓派专用于Roon Bridge，则最好安装volumio，moode，RoPieee这类已经预先集成了Bridge软件的，比较简单。
+
+因为我的树莓派还需要跑其他的软件，所以我是预装了系统再手工安装Roon Bridge。也比较简单
+
+官方有Linux安装指导：https://help.roonlabs.com/portal/en/kb/articles/linux-install
+
+要选对架构，对于树莓派4，如果是32位系统，用armv7hf， 我用的系统是64位的，所以使用armv8，安装只有下面三个指令 
+
+``` bash
+$ curl -O http://download.roonlabs.com/builds/roonbridge-installer-linuxarmv8.sh
+$ chmod +x roonbridge-installer-linuxarmv8.sh
+$ sudo ./roonbridge-installer-linuxarmv8.sh
+```
+
+取消安装在执行脚本加上参数uninstall，如：
+``` bash
+sudo ./roonbridge-installer-linuxarmv8.sh uninstall
+```
+
+安装完成后会有安装结果提示，看是否安装成功。
+
+**重要提示:** 安装完成后，可能会出现在Roon的关于里面可以看到桥，但是在音频里面看不到输出设备，应该是树莓派没有启动音频设备，需要修改config.txt文件，将dtparam=audio=on这一行的注释弃掉（删除前面的#号）
+
 
 # 通过VPN实现远程ROON
 
@@ -557,3 +602,159 @@ ping 192.168.1.100
 
 
 ![Remote Audio](images/audio-device.png)
+
+# 使用旁路由让NAS科学上网
+
+如果听Tidal，Qobuz这样的欧美流媒体，科学上网是必要的。但是群晖NAS系统本身没有全局代理，而Roon本身也没有设置代理的选项，于是乎需要采用其他的方法完成科学上网。
+
+简单的办法就是采用旁路由，用openwrt搭建一个软路由，其他设备都通过旁路由代理上网。
+
+``` plantuml
+node "光猫" as modem
+
+node "主路由\n(拨号)" as mrouter
+modem <--> mrouter : 接入主路由wan口
+
+node "旁路由" as srouter {
+    component "梯子客户端\n(如OpenClash)" as clash
+}
+mrouter <-l-> srouter : 1.接入旁路由LAN口，\n2.将主路由的DHCP网关设置为旁路由\n3.将旁路由的网关设置为主路由
+node "NAS" as nas {
+    component Roon as roon
+}
+roon .u.> clash : 访问互联网请求
+nas <-u-> mrouter : NAS的网关和DNS指向主路由
+
+cloud "不需要科学上网的网站" as nw
+cloud "需要科学上网的网站\n(Tidal, Qobuz)" as sw
+cloud "机场服务器" as airport
+
+clash ..> nw
+clash ..> airport 
+airport ..> sw
+
+```
+
+考虑到旁路由要给家里所有的设备提供上网代理，所以我没有在NAS部署旁路由，而是在树莓派4上部署旁路由。 同样考虑树莓派4有其他用途，所以就不会让树莓派直接刷旁路由的固件，而是通过docker镜像部署。树莓派4也可以同时部署上面提到的Roon Bridge，前面的整个系统框图有描述
+
+旁路由软件选择openwrt
+
+## 安装openwrt
+
+我的树莓派刷的是这个64位的系统，已经集成了docker：
+https://github.com/openfans-community-offical/Debian-Pi-Aarch64/blob/master/README_zh.md
+
+
+1. 打开网卡混杂模式
+```bash
+sudo ip link set eth0 promisc on
+```
+这个eth0要看你机器上的实际网络接口是什么，很多情况下是eth0,你可以通过ip address命令查看。看你的机器的ip地址对应哪个接口，下面是我的机器执行结果，我机器的ip是192.168.1.111，对应eth0
+
+```
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether dc:a6:32:6b:c6:45 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.111/24 brd 192.168.1.255 scope global dynamic noprefixroute eth0
+       valid_lft 81018sec preferred_lft 66357sec
+    inet 192.168.1.88/24 brd 192.168.1.255 scope global secondary noprefixroute eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::9d51:2cb8:6b5f:58a8/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: wlan0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq state DOWN group default qlen 1000
+    link/ether dc:a6:32:6b:c6:46 brd ff:ff:ff:ff:ff:ff
+```
+
+2. 创建macvlan网络
+``` bash
+docker network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 -o parent=eth0 macnet
+```
+其中--subnet=192.168.1.0/24 根据你局域网地址填写，例如上面我用ip address查看我的ip地址是192.168.1.111,所以这里的值就是：--subnet=192.168.1.0/24 --gateway=192.168.1.1
+
+
+3. 拉取镜像
+```bash
+docker pull registry.cn-shanghai.aliyuncs.com/suling/openwrt:sulinggg/openwrt:rpi4
+```
+镜像的dockerhub说明：https://registry.hub.docker.com/r/sulinggg/openwrt/
+我是树莓派4，就拉取openwrt:rpi4的镜像
+
+4. 创建并启动容器
+```bash
+docker run --restart always --name openwrt -d --network macnet --privileged registry.cn-shanghai.aliyuncs.com/suling/openwrt:latest /sbin/init
+```
+
+5. 进入容器并修改相关参数
+```bash
+docker exec -it openwrt bash
+```
+进入容器的bash命令行，执行：
+```bash
+vim /etc/config/network
+```
+将LAN口参数改为
+```
+config interface 'lan'
+        option type 'bridge'
+        option ifname 'eth0'
+        option proto 'static'
+        option ipaddr '192.168.1.2'
+        option netmask '255.255.255.0'
+        option ip6assign '60'
+        option gateway '192.168.1.1'
+        option broadcast '192.168.1.255'
+        option dns '192.168.1.1'
+```
+里面地址要和上面说的一样，参考自己的机器的局域网网段来修改，其中ipaddr是旁路由在局域网的静态IP地址（自己选择）， gateway和dns填写主路由的ip地址。一般是网段第一个地址。
+
+6. 重启网络
+```bash
+/etc/init.d/network restart
+```
+
+7. 进入控制面板
+在浏览器输入第5步修改的ipaddr，就可以进入openwrt的管理页面
+
+8. 修改LAN口
+
+从这里进入
+
+![](images/openwrt-lan-modify.png)
+
+在基本设置中勾上不提供DHCP
+
+![](images/openwrt-lan-dhcp.png)
+
+在物理设置中取消桥接接口
+
+![](images/openwrt-lan-bridge.png)
+
+9. 设置主路由器的DHCP，将网关指向旁路由
+
+![](images/router-dhcp.png)
+每个路由都不太一样，但是都有类似设置。
+部分华为路由器没提供这个设置，只能在主路由关闭DHCP，由旁路由提供DHCP
+
+10. 重启主路由器
+
+主要是为了让主路由和所有设备断连再重连
+
+## 科学上网设置
+
+openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+为例进行说明
+
+1. 添加鸡场订阅
+![](images/ssr-server.png)
+
+2. 更新订阅添加线路
+![](images/ssr-nodes.png)
+
+3. 选择线路
+根据ping测试的时延选择线路点击应用就可以启动
+![](images/ssr-client.png)
+
