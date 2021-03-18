@@ -25,6 +25,8 @@
 - [使用旁路由让NAS科学上网](#使用旁路由让nas科学上网)
   - [安装openwrt](#安装openwrt)
   - [科学上网设置](#科学上网设置)
+    - [以ShadowSocksR Plus+](#以shadowsocksr-plus)
+    - [OpenClash](#openclash)
   - [使用旁路由后的端口映射](#使用旁路由后的端口映射)
 
 <!-- /code_chunk_output -->
@@ -747,7 +749,9 @@ config interface 'lan'
 
 ## 科学上网设置
 
-openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+为例进行说明
+openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+和OpenClash为例进行说明
+
+### 以ShadowSocksR Plus+
 
 1. 添加鸡场订阅
 ![](images/ssr-server.png)
@@ -759,6 +763,31 @@ openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+为例�
 根据ping测试的时延选择线路点击应用就可以启动
 ![](images/ssr-client.png)
 
+4. 将主路由器DDNS对外映射的域名加入直连规则
+有些域名服务的域名在机场提供的匹配规则中没有匹配，会算入国外流量，所以将路由器DDNS对外映射的域名加入直连规则非常重要，否则访问路由器或者路由器转发的网页会非常慢。
+
+
+### OpenClash
+
+1. 添加鸡场订阅
+![](images/clash-subscribe.png)
+
+2. 基本设置
+![](images/clash-basic.png)
+
+3. 在运行状态页面下面点击启动OPENCLASH按钮
+
+4. 启动后可以查看运行状态页面
+![](images/clash-status.png)
+如果有多个订阅的机场可以切换
+可以查看联网是否OK
+
+5. 自定义规则
+除了机场自带的配置，可以添加自己的自定义规则。不要修改机场的规则，以免自动更新机场订阅的时候被覆盖。建议将主路由器对外DDNS映射的域名增加一条直接访问的规则。
+例如路由器DDNS映射域名: xxxxxxx.f3322.net
+则增加一条规则:
+DOMAIN,xxxxxx.f3322.net,DIRECT
+![](images/clash-rule.png)
 
 ## 使用旁路由后的端口映射
 
