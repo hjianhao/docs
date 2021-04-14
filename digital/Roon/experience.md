@@ -175,12 +175,25 @@ node "Living Room PC" as pc {
     roon3 <--> roon : Control（Wired)
 }
 
+node "ifi defender+" as defender
+node "ifi silencer+" as silencer
+
+pc -U-> defender : USB
+defender -> silencer
+
+node "Burson Conductor Virtuoso\n(DAC and headphone amp)" as burson
+
+silencer -U-> burson : USB
+
+node "Beyerdynamic T1 II" as t1
+burson -> t1 : 6.35mm
+
 node "Study Room MAC" as mac {
     component "Roon APP" as roon5
     roon5 <--> roon : Control（Wired)
 }
 
-node "NuPrime id-8" as dac1
+node "NuPrime id-8\n(DAC and Amp)" as dac1
 roon5 -u=> dac1 : USB <-> DAC
 node "Dynaudio 52SE" as speaker1
 dac1 -> speaker1 
