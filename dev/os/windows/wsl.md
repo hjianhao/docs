@@ -18,6 +18,16 @@ LxRunOffline install -n <WSL名称> -d <安装系统的路径> -f <镜像文件�
 
 另外加入-s参数可在桌面创建快捷方式，可以不加。
 
+## 如何用文件管理器查看WSL文件
+
+在文件管理器中输入\\wsl$
+
+## 在WSL中使用GPU
+
+需要Windows版本： 
+
+参见： https://docs.microsoft.com/en-us/windows/win32/direct3d12/gpu-accelerated-training
+
 
 # LxRunOffline
 
