@@ -178,7 +178,7 @@ error: RPC failed; curl 56 GnuTLS recv error (-110): The TLS connection was non-
 Note: This solution is not just limited to codecommit but also for other Ubuntu gnults_handshake related issues.
 If you have AWS cli installed in ubuntu 14.04 and working with AWS codecommit, you are likely to get “gnutls_handshake() failed” error when you try to clone a repository created in codecommit. Do not worry about it, we have a solution for it.
 
-问题解决方案（亲自验证通过）
+问题解决方案1（亲自验证通过）
 ``` bash
 # 安装必要的依赖及环境
 sudo apt-get install build-essential fakeroot dpkg-dev
@@ -201,3 +201,12 @@ sudo dpkg-buildpackage -rfakeroot -b
 cd .. # 也就是在 ~/git-rectify 目录下
 sudo dpkg -i git_2.7.4-0ubuntu0.4_amd64.deb
 ```
+
+问题解决方案2
+```
+apt-get install gnutls-bin
+git config --global http.sslVerify false
+git config --global http.postBuffer 1048576000
+```
+
+不嫌麻烦推荐方案1
