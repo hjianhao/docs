@@ -43,8 +43,16 @@ noproxy = ... # 设置不代理的地址
  https_proxy = <user>:<password>@domain:port # 设置代理服务器
  ca_certificate = <证书路径> #设置证书路径
  # check_certificate = off # 或者不校验服务端证书
- 
- 
- 
+ ```
 
+# VPN
 
+# L2TP/IPSec
+
+Ubuntu 20.04默认不支持L2TP，需要通过下面命令安装，安装完成后，在设置界面的VPN设置里面就可以添加L2TP/IPSec VPN了。
+
+```
+sudo apt-get update
+sudo apt-get install network-manager-l2tp
+sudo apt-get install network-manager-l2tp-gnome
+```
