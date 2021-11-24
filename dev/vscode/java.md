@@ -3,7 +3,11 @@
 
 <!-- code_chunk_output -->
 
+- [JDK](#jdk)
+  - [vscode 设置](#vscode-设置)
 - [Maven](#maven)
+  - [vscode 设置](#vscode-设置-1)
+    - [指定maven运行环境](#指定maven运行环境)
 - [Gradle](#gradle)
   - [安装](#安装)
   - [vscode插件安装](#vscode插件安装)
@@ -16,8 +20,42 @@
 
 <!-- /code_chunk_output -->
 
+
+# JDK 
+
+## vscode 设置
+
+1. 指定JDK
+```json
+"java.home" : "/home/hjianhao/dev/jdk"
+```
+
 # Maven
 
+## vscode 设置
+
+### 指定maven运行环境
+
+1. 指定maven可执行文件
+```json
+"maven.executable.path": "/home/hjianhao/dev/maven/bin/mvn"
+```
+
+2. 指定maven用户配置文件路径
+一般最好不要改全局设置，而是将全局设置拷贝，粘贴为一个用户设置文件，所有的修改在用户文件修改，后续升级版本也方便。 而且在多用户使用环境不影响其他用户。
+默认用户配置文件是${user.home}/.m2/settings.xml
+```json
+"java.configuration.maven.userSettings": "<path-to-user-settings-file"
+```
+
+3. 设置本地仓库目录
+默认本地仓库目录是${user.home}/.m2/repository。linux用户一般不会修改，但是windows用户在C盘，很多处于系统盘容量和系统重装的原因会修改
+修改maven用户配置文件,增加localRepository设置
+```xml
+<settings>   
+  <localRepository>path-to-repository</localRepository>   
+</settings> 
+```
 
 
 # Gradle
