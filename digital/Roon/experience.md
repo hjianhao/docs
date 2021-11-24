@@ -22,14 +22,10 @@
   - [打通WAN连接服务器](#打通wan连接服务器)
   - [搭建VPN服务器](#搭建vpn服务器)
   - [远程机器连接VPN服务器](#远程机器连接vpn服务器)
-  - [远程听音乐所需要的带宽](#远程听音乐所需要的带宽)
 - [使用旁路由让NAS科学上网](#使用旁路由让nas科学上网)
   - [安装openwrt](#安装openwrt)
   - [科学上网设置](#科学上网设置)
-    - [以ShadowSocksR Plus+](#以shadowsocksr-plus)
-    - [OpenClash](#openclash)
-  - [使用旁路由后的端口映射](#使用旁路由后的端口映射)
-  - [旁路由宿主机访问旁路由](#旁路由宿主机访问旁路由)
+  - [解决宿主机不能联网的问题](#解决宿主机不能联网的问题)
 
 <!-- /code_chunk_output -->
 
@@ -47,36 +43,36 @@
 
 ``` plantuml
 
-node "PS Audio PWD\n(DAC 24/192)" as dac {
+node "PS Audio PWD\n(解码器\n24/192)" as dac {
     component "Network Bridge\n(Media Render)" as bridge
-    component "DAC Board" as bdac
+    component "解码板" as bdac
     bridge --> bdac : I2S
 }
 
-node "Krell S550i\n(Amplifier)" as amp
-bdac --> amp : XLR
+node "Krell S550i\n(功放)" as amp
+bdac --> amp : XLR(平衡输出)
 
-node "ATC SCM 19\n(Speakers）" as speaker
+node "ATC SCM 19\n(音箱）" as speaker
 amp --> speaker
 
-node "Synology NAS\n(J1900 Quard core\n8G RAM, 4*4T Raid5)" as nas {
+node "群晖NAS\n(J1900四核/8G内存,\n4*4T Raid5阵列)" as nas {
     component "Audio Station\n(Media Server)" as mserver
-    mserver -> bridge : DLNA (24/192)\nWired
+    mserver -> bridge : DLNA (24/192)\n有线
     component "WebDav Server" as wserver
     wserver -[hidden]r-> mserver
     database "Storage" as storage
-    wserver <--> storage : R/W Data
-    mserver --> storage : R/W Data
+    wserver <--> storage : 读写数据
+    mserver --> storage : 读写数据
 }
 
-node "Living Room PC" as pc {
+node "客厅PC" as pc {
     component "Foobar 2000\n(Brower and Controller)" as f2_1
-    f2_1 <--> mserver : DLNA(Wired)
+    f2_1 <--> mserver : DLNA（有线)
 }
 
-node "Study Room MAC" as mac {
+node "书房MAC" as mac {
     component "Kodi\n(Media Render, \nBrowser and Controller)" as kodi
-    kodi <--> mserver : Controll, Access Audio\nWireless, DLNA (32/384, DoP)
+    kodi <--> mserver : 控制, 获取音频（无线)\nDLNA (32/384, DSD256)
 }
 
 node "NuPrime id-8" as dac1
@@ -84,33 +80,33 @@ kodi -u=> dac1 : USB <-> DAC
 node "丹拿52SE" as speaker1
 dac1 -> speaker1 
 
-node "Phone/Pad\n in LAN" as phone {
-    component "DLNA Brower \n and Controller" as dc_1
-    dc_1 <--> mserver : Controll(Wireless)
+node "家庭局域网手机/Pad" as phone {
+    component "DLNA客户端\n(Brower and Controller)" as dc_1
+    dc_1 <--> mserver : 控制(无线)
 }
 
-node "Children Room\n Huawei Sound X" as soundx
-mserver <-u-> soundx : DLNA\n(24/96)\n (Wireless)
+node "小朋友房间\n Huawei Sound X" as soundx
+mserver <-u-> soundx : DLNA\n(24/96)\n (无线)
 
-node "Bed Room\n 2 * Huawei Sound X" as soundx1
-mserver <--> soundx1 : DLNA\n(24/96)\n (Wireless)
+node "卧室一对\n Huawei Sound X" as soundx1
+mserver <--> soundx1 : DLNA\n(24/96)\n (无线)
 
-cloud "WAN" as wan
+cloud "广域网" as wan
 wserver <-l-> wan
 
-node "Remote PC" as rpc {
+node "远程PC" as rpc {
     component "RaiDrive\n (WebDav Client)" as rai
     rai <-u-> wan
     component "Foobar 2000\n(Brower and Controller)" as f2_2
-    f2_2 -u-> rai : Access audio data
+    f2_2 -u-> rai : 读取音频数据
 }
 
-node "HiBy R6Pro\n(DSD256,\n 32/384,\n MQA)" as hiby
+node "海贝R6Pro\n(DSD256,\n 32/384,\n MQA)" as hiby
 f2_2 <--> hiby : USB <-> DAC
 
-node "Remote Phone" as rphone {
-    component "Hiby Music\n（WebDav Client)" as mhiby
-    mhiby <-u-> wan : Access audio data
+node "远程手机" as rphone {
+    component "海贝音乐\n（自带WebDav Client)" as mhiby
+    mhiby <-u-> wan : 转发
 }
 
 ```
@@ -121,112 +117,99 @@ Roon的帐号挺贵的，加上我对原来的硬件还算满意，所以想最�
 
 感谢philippe开发的SqueezeBox桥接到Upnp的软件squeeze2upnp，使得我复用原有DLNA系统的想法成为了可能，而且他对待用户的反馈是否友好，耐心解答并能很快做出修改。
 
-最终，对于客厅的PS Audio PWD解码器，还是花钱在闲鱼淘了个二手的Bridge II，支持Roon Ready，这样Roon就可以通过RAAT协议直接传输音频流到解码器，音质比通过squeeze2upnp有明显的提升，考虑到squeez2upnp是pass through的，所以感觉roon的RAAT输出比squeezebox输出音质要好。
-
 ``` plantuml
 
-node "PS Audio PWD\n(DAC 24/192)" as dac {
-    component "Network Bridge II" as bridge
-    component "DAC Board" as bdac
+node "PS Audio PWD\n(解码器\n24/192)" as dac {
+    component "Network Bridge" as bridge
+    component "解码板" as bdac
     bridge --> bdac : I2S
 }
 
-node "Krell S550i\n(Amplifier)" as amp
-bdac --> amp : XLR
+node "Krell S550i\n(功放)" as amp
+bdac --> amp : XLR(平衡输出)
 
-node "ATC SCM 19\n(Speakers）" as speaker
+node "ATC SCM 19\n(音箱）" as speaker
 amp --> speaker
 
-node "Synology NAS\n(J1900 Quard core\n8G RAM, 4*4T Raid5)" as nas {
+node "群晖NAS\n(J1900四核/8G内存,\n4*4T Raid5阵列)" as nas {
     component "Roon Server" as roon
     component "squeeze2upnp" as s2u
-    roon --> s2u : squeezebox
-    roon --> bridge : RAAT(24/192)\nWired
+    roon --> s2u : squeezebox协议
+    s2u --> bridge : DLNA (24/192)\n有线
     component "L2TP/IPSec Server" as svpn
-    roon <--> svpn : transmit
+    roon <--> svpn : 转发
 }
 
 node "Raspberry Pi" as pi {
     component "openwrt\n(OpenClash)" as openwrt
-    roon --> openwrt : transmit
+    roon -> openwrt : 梯子转发
+    component "Roon bridge" as rb
+    openwrt -[hidden]-> rb
+    roon -> rb : RAAT协议
+    rb -> bdac : USB input
 }
 
-cloud "Proxy Servers" as proxy
 cloud TIDAL
 cloud Qobuz
 cloud RoonCloud
 
-openwrt -u-> proxy
-proxy -u-> TIDAL
-proxy -u-> Qobuz
-proxy -u-> RoonCloud
+openwrt -u-> TIDAL
+openwrt -u-> Qobuz
+openwrt -u-> RoonCloud
 
 node "Bed Room \n Hearing Amplifiers" as amp1
 
 node "Bed Room\n Raspberry Pi" as pi1 {
     component "Roon bridge" as rb1
-    roon -> rb1 : RAAT
+    roon -> rb1 : RAAT协议
     rb1 -> amp1 : USB input
 }
 
 
-node "Living Room PC" as pc {
+node "客厅PC" as pc {
     component "Roon APP" as roon3
-    roon3 <--> roon : Control（Wired)
+    roon3 <--> roon : 控制（有线)
 }
 
-node "ifi defender+" as defender
-node "ifi silencer+" as silencer
-
-pc -U-> defender : USB
-defender -> silencer
-
-node "Burson Conductor Virtuoso\n(DAC and headphone amp)" as burson
-
-silencer -U-> burson : USB
-
-node "Beyerdynamic T1 II" as t1
-burson -> t1 : 6.35mm
-
-node "Study Room MAC" as mac {
+node "书房MAC" as mac {
     component "Roon APP" as roon5
-    roon5 <--> roon : Control（Wired)
+    roon5 <--> roon : 控制（无线)
 }
 
-node "NuPrime id-8\n(DAC and Amp)" as dac1
+node "NuPrime id-8" as dac1
 roon5 -u=> dac1 : USB <-> DAC
-node "Dynaudio 52SE" as speaker1
+node "丹拿52SE" as speaker1
 dac1 -> speaker1 
 
-node "Phone/Pad\n in LAN" as phone {
+node "家庭局域网手机/Pad" as phone {
     component "Roon APP" as roon4
-    roon4 <--> roon : Control（Wireless)
+    roon4 <--> roon : 控制(无线)
 }
 
-node "Children Room\n Huawei Sound X" as soundx
-s2u <--> soundx : DLNA\n(24/96)\n (Wireless)
+node "小朋友房间\n Huawei Sound X" as soundx
+s2u <--> soundx : DLNA\n(24/96)\n (无线)
 
-node "Bed Room\n 2 * Huawei Sound X" as soundx1
-s2u <--> soundx1 : DLNA\n(24/96)\n (Wireless)
+node "卧室一对\n Huawei Sound X" as soundx1
+s2u <--> soundx1 : DLNA\n(24/96)\n (无线)
 
-cloud "WAN" as wan
+cloud "广域网" as wan
 svpn <--> wan
 
-node "Remote PC" as rpc {
+node "远程PC" as rpc {
     component "VPN Client" as cvpn1
     cvpn1 <-u-> wan
     component "Roon" as roon1
-    cvpn1 <--> roon1 : transmit
+    cvpn1 <--> roon1 : 转发
 }
 
-node "HiBy R6Pro\n(DSD256,\n 32/384,\n MQA)" as hiby
+node "海贝R6Pro\n(DSD256,\n 32/384,\n MQA)" as hiby
 roon1 <--> hiby : USB <-> DAC
 
-node "Remote Phone" as rphone {
+node "远程手机" as rphone {
     component "VPN Client" as cvpn2
     cvpn2 <-u-> wan
     component "Roon Remote" as roon2
-    cvpn2 <--> roon2 : transmit
+    cvpn2 <--> roon2 : 转发
 }
 
 ```
@@ -543,6 +526,25 @@ sudo ./roonbridge-installer-linuxarmv8.sh uninstall
 
 **重要提示:** 安装完成后，可能会出现在Roon的关于里面可以看到桥，但是在音频里面看不到输出设备，应该是树莓派没有启动音频设备，需要修改config.txt文件，将dtparam=audio=on这一行的注释弃掉（删除前面的#号）
 
+除了USB输出外，也可以给树莓派添加I2S音频扩展卡，通过同轴/平衡/光纤输出到解码器。
+
+如果选用的是兼容HiFiBerry系列的显卡，可以参考：
+https://www.hifiberry.com/docs/software/configuring-linux-3-18-x/
+
+
+以我买的带平衡和光纤输出的兼容HiFiBerry Digi+的扩展版为例，修改/boot/config.txt
+
+1. 注释掉dtparam=audio=on
+2. 添加dtoverlay=hifiberry-dac
+
+重启树莓派即可。然后用aplay指令可以看到I2S声卡
+```bash
+aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: sndrpihifiberry [snd_rpi_hifiberry_digi], device 0: HifiBerry Digi HiFi wm8804-spdif-0 [HifiBerry Digi HiFi wm8804-spdif-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
 
 # 通过VPN实现远程ROON
 
@@ -620,16 +622,6 @@ ping 192.168.1.100
 
 
 ![Remote Audio](images/audio-device.png)
-
-## 远程听音乐所需要的带宽
-
-远程听音乐所需的带宽取决的你听音乐的码率和你的宽带所需的上行带宽。以Qobuz听24bit/192KHZ的音乐为例。
-
-
-![](images/remote-bandwith.png)
-
-通过上面的网络监控可以看到,Roon获取音乐是缓存模式的，尽可能快的获取到音乐缓存在本地，所以每首歌的启播都是一个波峰。而对于推送到远端节点是持续的，按照RAAT协议是10秒，10秒推的，带宽是个持续的，没有超过2MB(峰值大概是1.5MB。也就是12Mbps)，也就是理论上16Mbps的上行带宽就够了，但是考虑到理论值和实际值的余量还有其他的应用还有带宽占用。国内200Mbps的宽带，上行25Mbps带宽基本也满足了。
-
 
 # 使用旁路由让NAS科学上网
 
@@ -774,9 +766,7 @@ config interface 'lan'
 
 ## 科学上网设置
 
-openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+和OpenClash为例进行说明
-
-### 以ShadowSocksR Plus+
+openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+为例进行说明
 
 1. 添加鸡场订阅
 ![](images/ssr-server.png)
@@ -788,112 +778,6 @@ openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+和Open
 根据ping测试的时延选择线路点击应用就可以启动
 ![](images/ssr-client.png)
 
-4. 将主路由器DDNS对外映射的域名加入直连规则
-有些域名服务的域名在机场提供的匹配规则中没有匹配，会算入国外流量，所以将路由器DDNS对外映射的域名加入直连规则非常重要，否则访问路由器或者路由器转发的网页会非常慢。
 
-
-### OpenClash
-
-1. 添加鸡场订阅
-![](images/clash-subscribe.png)
-
-2. 基本设置
-![](images/clash-basic.png)
-
-3. 在运行状态页面下面点击启动OPENCLASH按钮
-
-4. 启动后可以查看运行状态页面
-![](images/clash-status.png)
-如果有多个订阅的机场可以切换
-可以查看联网是否OK
-
-5. 自定义规则
-除了机场自带的配置，可以添加自己的自定义规则。不要修改机场的规则，以免自动更新机场订阅的时候被覆盖。建议将主路由器对外DDNS映射的域名增加一条直接访问的规则。
-例如路由器DDNS映射域名: xxxxxxx.f3322.net
-则增加一条规则:
-DOMAIN,xxxxxx.f3322.net,DIRECT
-![](images/clash-rule.png)
-
-## 使用旁路由后的端口映射
-
-现在通过旁路由科学上网后，在主路由上设置端口映射是失效的。这样就没法连接NAS上的VPN服务器了。
-
-例如我的NAS的IP地址是192.168.1.100
-我在主路由上设置L2TP的端口映射到192.168.1.100即可
-UDP:500
-UDP:4500
-UDP:1701
-![](images/l2tp-nat.png)
-
-
-加上旁路由后，需要在主路由上将端口映射映射到旁路由，然后通过旁路由的端口转发转发到其他机器，同样以上面的L2TP的映射为例。旁路由的ip是192.168.1.2
-
-1. 在主路由上将端口映射到旁路由
-![](images/l2tp-bypass-route-nat.png)
-
-2. 在旁路由添加映射端口到连接旁路由的设备
-
-选择端口转发
-![](images/openwrt-transmit.png)
-
-添加端口转发
-![](images/openwrt-add-transmit.png)
-添加的时候外部区域不用选择，使用默认值
-
-修改端口转发
-![](images/openwrt-modify-transmit.png)
-选择刚添加的转发规则，点击“修改”进入上面的修改界面，将源区域选择lan
-
-这样就可以完成端口转发了。 由于多映射了一层，速度会稍微变慢。
-
-## 旁路由宿主机访问旁路由
-
-如上面的部署步骤，openwrt是docker容器运行的，网络用的是macvlan，所以宿主机是无法访问openwrt的IP （192.168.1.2）。
-
-宿主机树莓派还有其他的功用需要使用openwrt的科学上网代理访问外网，需要能设置使用openwrt运行的OpenClash的http或socks5代理。
-
-macvlan的桥接模式的特性就是一个网卡的不同macvlan虚拟网卡在桥接模式下能相互通讯，利用这个特性，解决方案如下：
-
-1. 创建一个macvlan虚拟接口
-修改/etc/network/interfaces文件
-
-```bash
-auto eth0
-iface eth0 inet static
-  address 192.168.1.111
-  netmask 255.255.255.0
-  gateway 192.168.1.1
-  dns-nameservers 192.168.1.1
-
-auto macvlan
-iface macvlan inet static
-  address 192.168.1.200
-  netmask 255.255.255.0
-  gateway 192.168.1.1
-  dns-nameservers 192.168.1.1
-  pre-up ip link add macvlan link eth0 type macvlan mode bridge
-  post-down ip link del macvlan link eth0 type macvlan mode bridge
-```
-
-其中的IP地址根据你的局域网IP段修改。
-
-2. 添加一条路由，通过新建立的虚拟接口访问openwrt容器的IP地址
-
-在/etc/network/if-up.d目录下添加一个脚本，route，内容如下
-``` bash
-#!/bin/bash
-
-if [[ $IFACE == "macvlan" ]]; then
-  ip route add 192.168.1.2 dev macvlan
-fi
-```
-然后赋予脚本可执行权限 chmod +x route
-
-这个目录下的脚本在网络接口up时会调用。这样启动的时候会自动添加这条路由。
-
-重启树莓派后，宿主机就可以访问openwrt了。例如通过代理访问google网页
-```bash
-curl -x 192.168.1.2:7890 https://www.google.com
-```
-
+## 解决宿主机不能联网的问题
 
