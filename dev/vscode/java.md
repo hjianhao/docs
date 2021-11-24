@@ -3,7 +3,11 @@
 
 <!-- code_chunk_output -->
 
+- [JDK](#jdk)
+  - [vscode 设置](#vscode-设置)
 - [Maven](#maven)
+  - [vscode 设置](#vscode-设置-1)
+    - [指定maven运行环境](#指定maven运行环境)
 - [Gradle](#gradle)
   - [安装](#安装)
   - [vscode插件安装](#vscode插件安装)
@@ -16,9 +20,26 @@
 
 <!-- /code_chunk_output -->
 
+
+# JDK 
+
+## vscode 设置
+
+1. 指定JDK
+```json
+"java.home" : "/home/hjianhao/dev/jdk"
+```
+
 # Maven
 
+## vscode 设置
 
+### 指定maven运行环境
+
+1. 指定maven可执行文件
+```json
+"maven.executable.path": "/home/hjianhao/dev/maven/bin/mvn"
+```
 
 # Gradle
 
