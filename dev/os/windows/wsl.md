@@ -1,3 +1,7 @@
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+
 # FAQ
 
 ## 如何指定WSL实例的目录
@@ -40,6 +44,10 @@ export LS_COLORS
 
 PS1='\e[37;1m\u@\e[35m\W\e[0m\$ ' # this will change your promp
 ```
+
+## 安装中文输入法
+
+https://www.mdnice.com/writing/ddc2298afc224161be99573adda0f18b
 
 # LxRunOffline
 
