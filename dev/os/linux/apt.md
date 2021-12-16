@@ -10,6 +10,8 @@
   - [设置阿里云的源](#设置阿里云的源)
 - [缓存](#缓存)
   - [清除缓存](#清除缓存)
+- [软件](#软件)
+  - [获取软件的源码修改编译](#获取软件的源码修改编译)
 
 <!-- /code_chunk_output -->
 
@@ -68,3 +70,25 @@ sudo apt clean
 sudo apt clean
 ```
 
+# 软件
+
+## 获取软件的源码修改编译
+
+1. 建立一个目录并进入该目录
+
+2. 获取源码
+``` bash
+apt-get source <package>
+```
+
+3. 安装编译依赖
+``` bash
+sudo apt-get build-dep <package>
+```
+
+4. 修改源码
+
+5. 打包生成.deb文件
+``` bash
+dpkg-buildpackage -rfakeroot -uc -b
+```

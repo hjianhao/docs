@@ -16,7 +16,12 @@
     - [KeePass](#keepass)
     - [词典](#词典)
   - [开发环境](#开发环境)
+    - [安装vscode](#安装vscode)
     - [Java开发环境](#java开发环境)
+      - [JDK安装](#jdk安装)
+      - [Maven安装](#maven安装)
+      - [安装vscode插件](#安装vscode插件)
+      - [安装IDEA](#安装idea)
     - [C++开发环境](#c开发环境)
     - [Markdown](#markdown)
   - [音乐播放](#音乐播放)
@@ -88,11 +93,119 @@
 
 ## 开发环境
 
+### 安装vscode
+开发文档，C/C++开发等，我都使用vscode，比较好用。简单Java开发我也会用vscode
+
+1. 安装依赖软件
+``` bash
+sudo apt update
+sudo apt install software-properties-common apt-transport-https wget
+```
+
+2. 加入Microsoft GPG key
+``` bash
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+```
+
+3. 启用 Visual Studio Code 源仓库
+``` bash
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+```
+
+4. 安装 Visual Studio Code 软件包
+``` bash
+sudo apt install code
+```
+
+后续可以通过apt更新
+
 ### Java开发环境
+
+#### JDK安装
+
+1. 下载JDK，官方下载：https://www.oracle.com/java/technologies/downloads/
+
+2. 解压安装
+例如解压到：$HOME/dev/jdk-17.0.1
+为了切换jdk方便，建议创建一个链接
+``` bash
+ln -s $HOME/dev/jdk-17.0.1 $HOME/dev/jdk
+```
+
+3. 设置环境变量
+在$HOME/.bashrc文件中添加如下环境变量
+``` bash
+export JAVA_HOME=/home/hjianhao/dev/jdk
+export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+```
+
+#### Maven安装
+
+1. 下载Maven，官方下载：https://maven.apache.org/download.cgi
+
+2. 解压安装
+例如解压到：$HOME/dev/apache-maven-3.8.3
+为了切换maven版本方便，建议创建一个链接
+``` bash
+ln -s $HOME/dev/apache-maven-3.8.3 $HOME/dev/jdk
+```
+
+3. 设置环境变量
+``` bash
+export M2_HOME=/home/hjianhao/dev/maven
+export PATH=${PATH}:${M2_HOME}/bin
+```
+
+#### 安装vscode插件
+
+1. 在扩展中搜索并安装“Extension Pack for Java”，包括了以下Java开发必要的插件
+* Language Support for Java™ by Red Hat
+* Debugger for Java
+* Test Runner for Java
+* Maven for Java
+* Project Manager for Java
+* Visual Studio IntelliCode
+
+2. 设置JDK路径
+在settings.json中设置(默认不设置就是\$JAVA_HOME指定的环境变量)
+"java.home": "<path-to-jdk>"
+
+
+3. 设置vscode的maven配置
+在settings.json中设置
+全局配置文件（默认不配置就是~/conf/settings.xml)
+"java.configuration.maven.globalSettings": "<path-to-global-settings-file>"
+用户配置文件(默认不配置就是 ~/.m2/settings.xml)
+"java.configuration.maven.userSettings": "<path-to-user-settings-file>"
+Maven可执行文件路径(指定Maven的版本，默认不配置就是PATH中可搜索到的执行文件)
+""maven.executable.path": "<path-to-maven-executable>"
+
+4. 设置本地仓库路径
+默认不设置就是~/.m2/repository目录
+如果需要就在用户配置文件中增加
+``` bash
+<settings>   
+  <localRepository>本地仓库路径</localRepository>   
+</settings> 
+```
+
+4.通过Ctrl+Shift+P，选择"Maven: Create Maven Project"创建Java工程
+创建完工程就可以通过左边导航栏的的Maven视图执行Maven命令。或者通过Ctrl+Shift+P，选择"Maven: Execute Commands"执行命令。 如:clean install
+
+vscode的Java开发简单介绍：https://code.visualstudio.com/docs/java/java-tutorial
+
+#### 安装IDEA
+
+直接下载安装IDEA即可，IDEA Java安装设置网上很多介绍
 
 ### C++开发环境
 
+vscode的C/C++开发简单介绍：https://code.visualstudio.com/docs
+
 ### Markdown
+
+Markdown我使用vscode + Markdown Preview Enhanced插件，自我感觉不错。可以根据自己的喜好使用其他不同插件，例如
 
 ## 音乐播放
 
