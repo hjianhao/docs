@@ -11,6 +11,7 @@
 - [缓存](#缓存)
   - [清除缓存](#清除缓存)
 - [软件](#软件)
+  - [删除软件包](#删除软件包)
   - [获取软件的源码修改编译](#获取软件的源码修改编译)
 
 <!-- /code_chunk_output -->
@@ -72,6 +73,18 @@ sudo apt clean
 
 # 软件
 
+## 删除软件包
+
+1. 删除软件包及配置
+```bash
+apt purge / apt-get --purge remove
+```
+
+2. 删除不需要的依赖包
+```bash
+apt autoremove
+```
+
 ## 获取软件的源码修改编译
 
 1. 建立一个目录并进入该目录
@@ -87,8 +100,10 @@ sudo apt-get build-dep <package>
 ```
 
 4. 修改源码
+进入源码目录，例如下载cmake源码，下载完成后就有一个camke-<版本号>的目录，然后进入这个目录修改源码
 
 5. 打包生成.deb文件
+在源码目录执行以下命令，就会在上一层目录生成deb安装包
 ``` bash
 dpkg-buildpackage -rfakeroot -uc -b
 ```
