@@ -104,10 +104,31 @@
 
 ### 输入法
 
+中文输入法是必需的软件，选择使用搜狗输入法
+
+安装指南参见： https://pinyin.sogou.com/linux/help.php
+
+注意记得要点那个应用到整个系统的按钮
 
 ### KeePass
 
+KeePass是我一直使用的软件，提升密码安全性，每个网站/APP使用不同的密码，密码随机生成。这个软件有Linux版本。安装命令如下：
+
+``` bash
+sudo apt-add-repository ppa:jtaylor/keepass
+sudo apt-get update
+sudo apt-get install keepass2
+```
+
 ### 词典
+
+词典在所有平台我都使用欧路词典，跨平台同步数据，我也购买了收费版。比较好用。
+
+官网地址： https://www.eudic.net/v4/en/app/eudic
+
+直接下载deb用dpkg安装即可。
+
+需要下载安装字典，建议建立一个专门存放字典的目录，然后下载的字典都放在这个目录下，然后用欧路字典添加这个目录即可。
 
 ## 开发环境
 
@@ -391,4 +412,6 @@ wget -qO- https://deepin-wine.i-m.dev/setup.sh | sudo sh
 sudo apt-get install deepin.com.wechat 
 # 安装QQ
 sudo apt-get install deepin.com.qq.im    
+# 安装TIM
+sudo apt-get install deepin.com.qq.office
 ```
