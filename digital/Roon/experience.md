@@ -1,3 +1,12 @@
+---
+title: 将Roon引入我的听音系统的一些经验
+
+markdown:
+  image_dir: ./experience-images
+  path: experience-output.md
+  ignore_from_front_matter: true
+  absolute_image_path: false
+---
 
 将Roon引入我的听音系统的一些经验
 
@@ -41,7 +50,7 @@
 
 群晖NAS作为Media Server， 解码器，Mac软件，智能音箱作为Render，电脑、手机和Pad的软件作为Browser和Controller
 
-``` plantuml
+``` plantuml{align="center",filename="previous-system.png"}
 
 node "PS Audio PWD\n(解码器\n24/192)" as dac {
     component "Network Bridge\n(Media Render)" as bridge
@@ -110,6 +119,7 @@ node "远程手机" as rphone {
 }
 
 ```
+
 
 ## 引入Roon后听音系统网络拓扑
 
