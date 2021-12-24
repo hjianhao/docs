@@ -1,14 +1,14 @@
 
-
-
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
-
+- [概述](#概述)
 - [概述](#概述)
 - [折腾过程](#折腾过程)
   - [操作系统](#操作系统)
+    - [Ubuntu下载与引导](#ubuntu下载与引导)
     - [分区与引导](#分区与引导)
+    - [复制EFI到移动硬盘](#复制efi到移动硬盘)
     - [显卡驱动](#显卡驱动)
     - [多显示器](#多显示器)
   - [基础软件](#基础软件)
@@ -33,7 +33,6 @@
         - [配置mpd](#配置mpd)
         - [使用mpd](#使用mpd)
   - [社交](#社交)
-    - [xDroid](#xdroid)
     - [微信与QQ](#微信与qq)
 
 <!-- /code_chunk_output -->
@@ -57,11 +56,20 @@
 
 ## 操作系统
 
-操作系统选择的是Ubuntu，应该区别不大，也算是最流行的Desktop发行版之一。
+操作系统选择的是Ubuntu 20.04，应该区别不大，也算是最流行的Desktop发行版之一。
 
+我将操作系统安装在PSSD，同时要能从PSSD启动。
 
+### Ubuntu下载与引导
+
+操作系统安装ISO在如下地址下载： https://ubuntu.com/#download
+
+然后找一个U盘，通过官方推荐的Rufus将ISO写入U盘制作Live引导盘
+
+重启后用U盘启动进入Ubuntu Live。然后点击安装系统的图标安装。 最好不要选择启动菜单的oem install，因为这个安装完后还有一个OEM迁移到普通用户的过程。
 
 ### 分区与引导
+可以其他用DiskGenius在安装前分区，或者在安装的过程中选择手动分区。（在选择安全步骤选项选择其他选项）
 
 为了能将安装了Ubuntu系统的PSSD在多台电脑上启动，所以需要给一个EFI分区
 
@@ -78,14 +86,24 @@
 
 总体来说，分区比较简单，将"/"和"/home"是为了方便重装系统，其他的从简。
 
+### 复制EFI到移动硬盘
+
+安装完成后，移动硬盘的EFI分区是空的，多系统启动是使用电脑硬盘启动的。这样PSSD拿到其他电脑没启动。
+
+我的解决方案是在安装电脑上进入Windows系统，然后使用DiskGenius工具导出电脑硬盘的EFI分区镜像，然后将镜像再导入移动硬盘的EFI分区。
+
+然后移动硬盘拿到其他机器，通过移动硬盘启动就可以启动Ubuntu了。启动顺序进入每台机器的BIOS调整，将启动顺序1调整为移动硬盘，然后再是原机器的系统。
 
 ### 显卡驱动
+
+一些机器的显卡可以即插即用，例如主芯片是AMD 3750H的笔记本。一些机器的显卡直接进入是VGA分辨率，很难看，需要安装显卡驱动。以我的一台电脑时候用的Nvidia 2080为例。
 
 ### 多显示器
 
 ## 基础软件
 
 ### 输入法
+
 
 ### KeePass
 
@@ -171,7 +189,6 @@ export PATH=${PATH}:${M2_HOME}/bin
 在settings.json中设置(默认不设置就是\$JAVA_HOME指定的环境变量)
 "java.home": "<path-to-jdk>"
 
-
 3. 设置vscode的maven配置
 在settings.json中设置
 全局配置文件（默认不配置就是~/conf/settings.xml)
@@ -205,7 +222,7 @@ vscode的C/C++开发简单介绍：https://code.visualstudio.com/docs
 
 ### Markdown
 
-Markdown我使用vscode + Markdown Preview Enhanced插件，自我感觉不错。可以根据自己的喜好使用其他不同插件，例如
+Markdown我使用vscode + Markdown Preview Enhanced插件，自我感觉不错。可以根据自己的喜好使用其他不同插件.
 
 ## 音乐播放
 
@@ -360,8 +377,18 @@ mpc不是很常用，但是如果要配合脚本执行命令，就可以使用mp
 
 
 ## 社交
-
-### xDroid
+ 人在社会就离不开社交，QQ和微信是必要的，但是微信没有Linux版本，QQ的Linux版本非常差。所以只能用wine模拟器运行Windows版本的微信和QQ。
 
 ### 微信与QQ
 
+目前比较好的方案是使用deepin发布的微信和QQ。
+用xDroid安装安卓版本的微信和QQ小问题太多。
+
+``` bash
+# 安装deep-in环境和添加源
+wget -qO- https://deepin-wine.i-m.dev/setup.sh | sudo sh
+# 安装微信
+sudo apt-get install deepin.com.wechat 
+# 安装QQ
+sudo apt-get install deepin.com.qq.im    
+```
