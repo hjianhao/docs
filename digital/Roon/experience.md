@@ -50,7 +50,7 @@ markdown:
 
 群晖NAS作为Media Server， 解码器，Mac软件，智能音箱作为Render，电脑、手机和Pad的软件作为Browser和Controller
 
-``` plantuml{align="center",filename="previous-system.png"}
+```puml{align="center",filename="previous-system.png"}
 
 node "PS Audio PWD\n(解码器\n24/192)" as dac {
     component "Network Bridge\n(Media Render)" as bridge
@@ -127,7 +127,7 @@ Roon的帐号挺贵的，加上我对原来的硬件还算满意，所以想最�
 
 感谢philippe开发的SqueezeBox桥接到Upnp的软件squeeze2upnp，使得我复用原有DLNA系统的想法成为了可能，而且他对待用户的反馈是否友好，耐心解答并能很快做出修改。
 
-``` plantuml
+```puml{align="center",filename="new-system.png"}
 
 node "PS Audio PWD\n(解码器\n24/192)" as dac {
     component "Network Bridge" as bridge
@@ -253,7 +253,7 @@ Roon本身不支持输出，但是支持Squeezebox设备（就是LMS（Logitech 
 
 使用这个软件实现：Squeeze2upnp，他的目的就是将DLNA设备变成SqueezeBox设备
 
-``` plantuml
+```puml{align="center",filename="squeeze2upnp.png"}
 node "Roon Remote" as remote
 node "Roon Core" as core
 node "Squeeze2upnp\n(pass through or resample)" as s2u
@@ -468,7 +468,7 @@ squeeze2upnp-x86-64-static -x config.xml
 1. 也可以通过RAAT接入Roon Ready的解码器（前提是解码器支持Roon Ready）
 
 
-``` plantuml
+```puml{align="center",filename="raat.png"}
 node Roon as roon
 node "DAC\n(Roon Ready)" as dac
 roon -> dac : RAAT
@@ -479,7 +479,7 @@ roon -> dac : RAAT
 
 2. Roon Core通过USB输出接入解码器，包括直接接入到解码器的USB输入，或者通过解码器界面转换为同轴和光纤输入解码器
 
-``` plantuml
+```puml{align="center",filename="usb.png"}
 node Roon as roon
 node "DAC\n(Roon Ready)" as dac
 roon -> dac : USB Input
@@ -490,7 +490,7 @@ inf -> dac : Coaxial/Optical/AES\nInput
 
 3. Roon Core通过RAAT协议接入Roon Bridge，然后Roon Bridge接入解码器，接入方式和上面说的Roon Core类似
 
-``` plantuml
+```puml{align="center",filename="bridge.png"}
 node "Roon Core" as roon
 node "Roon Bridge" as bridge
 roon -> bridge : RAAT
@@ -639,7 +639,7 @@ ping 192.168.1.100
 
 简单的办法就是采用旁路由，用openwrt搭建一个软路由，其他设备都通过旁路由代理上网。
 
-``` plantuml
+```puml{align="center",filename="side-router.png"}
 node "光猫" as modem
 
 node "主路由\n(拨号)" as mrouter
