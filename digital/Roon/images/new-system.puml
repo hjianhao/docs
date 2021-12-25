@@ -1,0 +1,98 @@
+@startuml
+
+skinparam dpi 300
+
+node "PS Audio PWD\n(解码器\n24/192)" as dac {
+    component "Network Bridge" as bridge
+    component "解码板" as bdac
+    bridge --> bdac : I2S
+}
+
+node "Krell S550i\n(功放)" as amp
+bdac --> amp : XLR(平衡输出)
+
+node "ATC SCM 19\n(音箱）" as speaker
+amp --> speaker
+
+node "群晖NAS\n(J1900四核/8G内存,\n4*4T Raid5阵列)" as nas {
+    component "Roon Server" as roon
+    component "squeeze2upnp" as s2u
+    roon --> s2u : squeezebox协议
+    s2u --> bridge : DLNA (24/192)\n有线
+    component "L2TP/IPSec Server" as svpn
+    roon <--> svpn : 转发
+}
+
+node "Raspberry Pi" as pi {
+    component "openwrt\n(OpenClash)" as openwrt
+    roon -> openwrt : 梯子转发
+    component "Roon bridge" as rb
+    openwrt -[hidden]-> rb
+    roon -> rb : RAAT协议
+    rb -> bdac : USB input
+}
+
+cloud TIDAL
+cloud Qobuz
+cloud RoonCloud
+
+openwrt -u-> TIDAL
+openwrt -u-> Qobuz
+openwrt -u-> RoonCloud
+
+node "Bed Room \n Hearing Amplifiers" as amp1
+
+node "Bed Room\n Raspberry Pi" as pi1 {
+    component "Roon bridge" as rb1
+    roon -> rb1 : RAAT协议
+    rb1 -> amp1 : USB input
+}
+
+
+node "客厅PC" as pc {
+    component "Roon APP" as roon3
+    roon3 <--> roon : 控制（有线)
+}
+
+node "书房MAC" as mac {
+    component "Roon APP" as roon5
+    roon5 <--> roon : 控制（无线)
+}
+
+node "NuPrime id-8" as dac1
+roon5 -u=> dac1 : USB <-> DAC
+node "丹拿52SE" as speaker1
+dac1 -> speaker1 
+
+node "家庭局域网手机/Pad" as phone {
+    component "Roon APP" as roon4
+    roon4 <--> roon : 控制(无线)
+}
+
+node "小朋友房间\n Huawei Sound X" as soundx
+s2u <--> soundx : DLNA\n(24/96)\n (无线)
+
+node "卧室一对\n Huawei Sound X" as soundx1
+s2u <--> soundx1 : DLNA\n(24/96)\n (无线)
+
+cloud "广域网" as wan
+svpn <--> wan
+
+node "远程PC" as rpc {
+    component "VPN Client" as cvpn1
+    cvpn1 <-u-> wan
+    component "Roon" as roon1
+    cvpn1 <--> roon1 : 转发
+}
+
+node "海贝R6Pro\n(DSD256,\n 32/384,\n MQA)" as hiby
+roon1 <--> hiby : USB <-> DAC
+
+node "远程手机" as rphone {
+    component "VPN Client" as cvpn2
+    cvpn2 <-u-> wan
+    component "Roon Remote" as roon2
+    cvpn2 <--> roon2 : 转发
+}
+
+@enduml
