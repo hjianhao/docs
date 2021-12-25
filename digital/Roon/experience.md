@@ -50,75 +50,7 @@ markdown:
 
 群晖NAS作为Media Server， 解码器，Mac软件，智能音箱作为Render，电脑、手机和Pad的软件作为Browser和Controller
 
-```puml{align="center",filename="previous-system.png"}
-
-node "PS Audio PWD\n(解码器\n24/192)" as dac {
-    component "Network Bridge\n(Media Render)" as bridge
-    component "解码板" as bdac
-    bridge --> bdac : I2S
-}
-
-node "Krell S550i\n(功放)" as amp
-bdac --> amp : XLR(平衡输出)
-
-node "ATC SCM 19\n(音箱）" as speaker
-amp --> speaker
-
-node "群晖NAS\n(J1900四核/8G内存,\n4*4T Raid5阵列)" as nas {
-    component "Audio Station\n(Media Server)" as mserver
-    mserver -> bridge : DLNA (24/192)\n有线
-    component "WebDav Server" as wserver
-    wserver -[hidden]r-> mserver
-    database "Storage" as storage
-    wserver <--> storage : 读写数据
-    mserver --> storage : 读写数据
-}
-
-node "客厅PC" as pc {
-    component "Foobar 2000\n(Brower and Controller)" as f2_1
-    f2_1 <--> mserver : DLNA（有线)
-}
-
-node "书房MAC" as mac {
-    component "Kodi\n(Media Render, \nBrowser and Controller)" as kodi
-    kodi <--> mserver : 控制, 获取音频（无线)\nDLNA (32/384, DSD256)
-}
-
-node "NuPrime id-8" as dac1
-kodi -u=> dac1 : USB <-> DAC
-node "丹拿52SE" as speaker1
-dac1 -> speaker1 
-
-node "家庭局域网手机/Pad" as phone {
-    component "DLNA客户端\n(Brower and Controller)" as dc_1
-    dc_1 <--> mserver : 控制(无线)
-}
-
-node "小朋友房间\n Huawei Sound X" as soundx
-mserver <-u-> soundx : DLNA\n(24/96)\n (无线)
-
-node "卧室一对\n Huawei Sound X" as soundx1
-mserver <--> soundx1 : DLNA\n(24/96)\n (无线)
-
-cloud "广域网" as wan
-wserver <-l-> wan
-
-node "远程PC" as rpc {
-    component "RaiDrive\n (WebDav Client)" as rai
-    rai <-u-> wan
-    component "Foobar 2000\n(Brower and Controller)" as f2_2
-    f2_2 -u-> rai : 读取音频数据
-}
-
-node "海贝R6Pro\n(DSD256,\n 32/384,\n MQA)" as hiby
-f2_2 <--> hiby : USB <-> DAC
-
-node "远程手机" as rphone {
-    component "海贝音乐\n（自带WebDav Client)" as mhiby
-    mhiby <-u-> wan : 转发
-}
-
-```
+![](images/previous-system.png)
 
 
 ## 引入Roon后听音系统网络拓扑 
