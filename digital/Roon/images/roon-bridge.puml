@@ -1,0 +1,12 @@
+@startuml
+
+node "Roon Core" as roon
+node "Roon Bridge" as bridge
+roon -> bridge : RAAT
+node "DAC\n(Roon Ready)" as dac
+bridge -> dac : USB Input
+node "USB Interface" as inf
+bridge -> inf : USB Input
+inf -> dac : Coaxial/Optical/AES\nInput
+
+@enduml

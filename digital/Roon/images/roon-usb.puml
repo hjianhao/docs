@@ -1,0 +1,8 @@
+@startuml
+node Roon as roon
+node "DAC\n(Roon Ready)" as dac
+roon -> dac : USB Input
+node "USB Interface" as inf
+roon -> inf : USB Input
+inf -> dac : Coaxial/Optical/AES\nInput
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+
+node Roon as roon
+node "DAC\n(Roon Ready)" as dac
+roon -> dac : RAAT
+
+@enduml

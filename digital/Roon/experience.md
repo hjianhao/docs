@@ -1,11 +1,6 @@
 ---
 title: 将Roon引入我的听音系统的一些经验
 zhihu-url: https://zhuanlan.zhihu.com/p/449665739
-markdown:
-  image_dir: ./experience-images
-  path: experience-output.md
-  ignore_from_front_matter: true
-  absolute_image_path: false
 ---
 
 将Roon引入我的听音系统的一些经验
@@ -50,7 +45,7 @@ markdown:
 
 群晖NAS作为Media Server， 解码器，Mac软件，智能音箱作为Render，电脑、手机和Pad的软件作为Browser和Controller
 
-![](images/previous-system.png)
+![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/previous-system.png)
 
 
 ## 引入Roon后听音系统网络拓扑 
@@ -59,102 +54,7 @@ Roon的帐号挺贵的，加上我对原来的硬件还算满意，所以想最�
 
 感谢philippe开发的SqueezeBox桥接到Upnp的软件squeeze2upnp，使得我复用原有DLNA系统的想法成为了可能，而且他对待用户的反馈是否友好，耐心解答并能很快做出修改。
 
-```puml{align="center",filename="new-system.png"}
-
-node "PS Audio PWD\n(解码器\n24/192)" as dac {
-    component "Network Bridge" as bridge
-    component "解码板" as bdac
-    bridge --> bdac : I2S
-}
-
-node "Krell S550i\n(功放)" as amp
-bdac --> amp : XLR(平衡输出)
-
-node "ATC SCM 19\n(音箱）" as speaker
-amp --> speaker
-
-node "群晖NAS\n(J1900四核/8G内存,\n4*4T Raid5阵列)" as nas {
-    component "Roon Server" as roon
-    component "squeeze2upnp" as s2u
-    roon --> s2u : squeezebox协议
-    s2u --> bridge : DLNA (24/192)\n有线
-    component "L2TP/IPSec Server" as svpn
-    roon <--> svpn : 转发
-}
-
-node "Raspberry Pi" as pi {
-    component "openwrt\n(OpenClash)" as openwrt
-    roon -> openwrt : 梯子转发
-    component "Roon bridge" as rb
-    openwrt -[hidden]-> rb
-    roon -> rb : RAAT协议
-    rb -> bdac : USB input
-}
-
-cloud TIDAL
-cloud Qobuz
-cloud RoonCloud
-
-openwrt -u-> TIDAL
-openwrt -u-> Qobuz
-openwrt -u-> RoonCloud
-
-node "Bed Room \n Hearing Amplifiers" as amp1
-
-node "Bed Room\n Raspberry Pi" as pi1 {
-    component "Roon bridge" as rb1
-    roon -> rb1 : RAAT协议
-    rb1 -> amp1 : USB input
-}
-
-
-node "客厅PC" as pc {
-    component "Roon APP" as roon3
-    roon3 <--> roon : 控制（有线)
-}
-
-node "书房MAC" as mac {
-    component "Roon APP" as roon5
-    roon5 <--> roon : 控制（无线)
-}
-
-node "NuPrime id-8" as dac1
-roon5 -u=> dac1 : USB <-> DAC
-node "丹拿52SE" as speaker1
-dac1 -> speaker1 
-
-node "家庭局域网手机/Pad" as phone {
-    component "Roon APP" as roon4
-    roon4 <--> roon : 控制(无线)
-}
-
-node "小朋友房间\n Huawei Sound X" as soundx
-s2u <--> soundx : DLNA\n(24/96)\n (无线)
-
-node "卧室一对\n Huawei Sound X" as soundx1
-s2u <--> soundx1 : DLNA\n(24/96)\n (无线)
-
-cloud "广域网" as wan
-svpn <--> wan
-
-node "远程PC" as rpc {
-    component "VPN Client" as cvpn1
-    cvpn1 <-u-> wan
-    component "Roon" as roon1
-    cvpn1 <--> roon1 : 转发
-}
-
-node "海贝R6Pro\n(DSD256,\n 32/384,\n MQA)" as hiby
-roon1 <--> hiby : USB <-> DAC
-
-node "远程手机" as rphone {
-    component "VPN Client" as cvpn2
-    cvpn2 <-u-> wan
-    component "Roon Remote" as roon2
-    cvpn2 <--> roon2 : 转发
-}
-
-```
+![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/new-system.png)
 
 # 安装Roon
 
@@ -400,39 +300,20 @@ squeeze2upnp-x86-64-static -x config.xml
 1. 也可以通过RAAT接入Roon Ready的解码器（前提是解码器支持Roon Ready）
 
 
-```puml{align="center",filename="raat.png"}
-node Roon as roon
-node "DAC\n(Roon Ready)" as dac
-roon -> dac : RAAT
-```
+![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/roon-raat.png)
 
 这种方式比较简单，只要你的解码器支持Roon Ready且解码器和Roon core在同一个局域网网段，就可以相互发现，不用配置。因为简单且我的解码器不支持Roon Ready就不在这里赘述了
 
 
 2. Roon Core通过USB输出接入解码器，包括直接接入到解码器的USB输入，或者通过解码器界面转换为同轴和光纤输入解码器
 
-```puml{align="center",filename="usb.png"}
-node Roon as roon
-node "DAC\n(Roon Ready)" as dac
-roon -> dac : USB Input
-node "USB Interface" as inf
-roon -> inf : USB Input
-inf -> dac : Coaxial/Optical/AES\nInput
-```
+![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/roon-usb.png)
+
 
 3. Roon Core通过RAAT协议接入Roon Bridge，然后Roon Bridge接入解码器，接入方式和上面说的Roon Core类似
 
-```puml{align="center",filename="bridge.png"}
-node "Roon Core" as roon
-node "Roon Bridge" as bridge
-roon -> bridge : RAAT
-node "DAC\n(Roon Ready)" as dac
-bridge -> dac : USB Input
-node "USB Interface" as inf
-bridge -> inf : USB Input
-inf -> dac : Coaxial/Optical/AES\nInput
+![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/roon-bridge.png)
 
-```
 
 这里主要介绍第三种，因为Bridge可以:
 1. 让Roon Core和解码器的位置摆放更为灵活，只要Bridge接近解码器即可。
