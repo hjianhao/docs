@@ -1,0 +1,12 @@
+@startuml
+
+node "Roon Remote" as remote
+node "Roon Core" as core
+node "Squeeze2upnp\n(pass through or resample)" as s2u
+node "DLNA render\n(eg. Huawei Sound X) " as render
+
+remote --> core : play control
+core -> s2u
+s2u -> render : DLNA protocol
+
+@enduml

@@ -45,8 +45,7 @@ zhihu-url: https://zhuanlan.zhihu.com/p/449665739
 
 群晖NAS作为Media Server， 解码器，Mac软件，智能音箱作为Render，电脑、手机和Pad的软件作为Browser和Controller
 
-![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/previous-system.png)
-
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/previous-system.png)
 
 ## 引入Roon后听音系统网络拓扑 
 
@@ -54,7 +53,7 @@ Roon的帐号挺贵的，加上我对原来的硬件还算满意，所以想最�
 
 感谢philippe开发的SqueezeBox桥接到Upnp的软件squeeze2upnp，使得我复用原有DLNA系统的想法成为了可能，而且他对待用户的反馈是否友好，耐心解答并能很快做出修改。
 
-![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/new-system.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/new-system.png)
 
 # 安装Roon
 
@@ -85,16 +84,7 @@ Roon本身不支持输出，但是支持Squeezebox设备（就是LMS（Logitech 
 
 使用这个软件实现：Squeeze2upnp，他的目的就是将DLNA设备变成SqueezeBox设备
 
-```puml{align="center",filename="squeeze2upnp.png"}
-node "Roon Remote" as remote
-node "Roon Core" as core
-node "Squeeze2upnp\n(pass through or resample)" as s2u
-node "DLNA render\n(eg. Huawei Sound X) " as render
-
-remote --> core : play control
-core -> s2u
-s2u -> render : DLNA protocol
-```
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/squeezebox.png)
 
 软件github地址：https://github.com/philippe44/LMS-to-uPnP
 里面有下载地址和提供支持的论坛地址
@@ -299,20 +289,18 @@ squeeze2upnp-x86-64-static -x config.xml
 
 1. 也可以通过RAAT接入Roon Ready的解码器（前提是解码器支持Roon Ready）
 
-
-![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/roon-raat.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-raat.png)
 
 这种方式比较简单，只要你的解码器支持Roon Ready且解码器和Roon core在同一个局域网网段，就可以相互发现，不用配置。因为简单且我的解码器不支持Roon Ready就不在这里赘述了
 
 
 2. Roon Core通过USB输出接入解码器，包括直接接入到解码器的USB输入，或者通过解码器界面转换为同轴和光纤输入解码器
 
-![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/roon-usb.png)
-
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-usb.png)
 
 3. Roon Core通过RAAT协议接入Roon Bridge，然后Roon Bridge接入解码器，接入方式和上面说的Roon Core类似
 
-![](https://gitee.com/hjianhao/docs/blob/main/digital/Roon/images/roon-bridge.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-bridge.png)
 
 
 这里主要介绍第三种，因为Bridge可以:
