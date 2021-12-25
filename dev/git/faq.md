@@ -17,6 +17,10 @@
   - [添加文件](#添加文件)
     - [撤销添加](#撤销添加)
   - [如何找到所有未添加到库的文件](#如何找到所有未添加到库的文件)
+  - [和多个远程仓库同步](#和多个远程仓库同步)
+    - [查看连接的远程仓库列表](#查看连接的远程仓库列表)
+    - [增加一个远程仓库](#增加一个远程仓库)
+    - [向新增加的远程仓库推送](#向新增加的远程仓库推送)
 - [遇到的问题](#遇到的问题)
   - [Ubuntu系统运行git与github服务器交互时出现 GnuTLS错误](#ubuntu系统运行git与github服务器交互时出现-gnutls错误)
 
@@ -166,6 +170,23 @@ git reset HEAD <路径/文件名>
 git status --untracked-files=all
 ```
 这里包括了所有子目录的未添加文件
+
+## 和多个远程仓库同步
+
+### 查看连接的远程仓库列表
+``` bash
+git remote -v 
+```
+
+### 增加一个远程仓库
+``` bash
+git remote add gitee git@gitee.com:<user_name>/<repository>.git
+```
+
+### 向新增加的远程仓库推送
+``` bash
+git push gitee main
+```
 
 # 遇到的问题
 
