@@ -45,7 +45,7 @@ zhihu-url: https://zhuanlan.zhihu.com/p/449665739
 
 群晖NAS作为Media Server， 解码器，Mac软件，智能音箱作为Render，电脑、手机和Pad的软件作为Browser和Controller
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/previous-system.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images//previous-system.png)
 
 ## 引入Roon后听音系统网络拓扑 
 
@@ -53,7 +53,7 @@ Roon的帐号挺贵的，加上我对原来的硬件还算满意，所以想最�
 
 感谢philippe开发的SqueezeBox桥接到Upnp的软件squeeze2upnp，使得我复用原有DLNA系统的想法成为了可能，而且他对待用户的反馈是否友好，耐心解答并能很快做出修改。
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/new-system.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images//new-system.png)
 
 # 安装Roon
 
@@ -62,29 +62,29 @@ Roon的帐号挺贵的，加上我对原来的硬件还算满意，所以想最�
 2. 在共享文件夹中创建一个名字叫"RoonServer"的共享目录
 强烈建议使用SSD安装Roon，因为Roon服务器的随机访问速度很关键，我的NAS没有SSD安装槽位，只能通过USB 3.0的盒子接入SATA3固态硬盘。
 如果接入外置存储，将外置存储的名字改为RoonServer
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-share.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-share.png)
 
 3. 选择手动安装套件，安装过程比较长
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-install.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-install.png)
 
 手机，PC, MAC, Pad的客户端可以参考官网安装：
 https://roonlabs.com/downloads
 
 以Windows为例，在PC上启动Roon，就回发现群晖NAS的Core，连接就可以使用
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-connection.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-connection.png)
 
 # 如何为Roon增加DLNA输出
 
 Roon本身不支持输出，但是支持Squeezebox设备（就是LMS（Logitech Media Server）体系）
 
 下图就是在Roon设置中打开对squeezbox的支持。
-![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-enable-squeeze.png)
+![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-enable-squeeze.png)
 
 接下来的思路就是做一个桥，将Roon使用Squeezebox协议输出的音频转成DLNA的协议
 
 使用这个软件实现：Squeeze2upnp，他的目的就是将DLNA设备变成SqueezeBox设备
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/squeezebox.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images//squeezebox.png)
 
 软件github地址：https://github.com/philippe44/LMS-to-uPnP
 里面有下载地址和提供支持的论坛地址
@@ -223,24 +223,24 @@ squeeze2upnp-x86-64-static -x config.xml
 
 ## Roon配置
 在Roon的“设置”->"音频"中启用桥设备，并给其命名，例如命名为Huawei Sound
-![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-enable-squeeze.png)
+![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-enable-squeeze.png)
 
 对设备进行一些简单配置
-![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-setting-device.png)
+![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-setting-device.png)
 
 在右下角的设备选择那里选择需要播放的设备，例如Huawei Sound音箱
-![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-select-device.png)
+![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-select-device.png)
 
 然后打开设备的DSP选项
-![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-select-dsp.png)
+![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-select-dsp.png)
 
 将Huawei Sound高于96k码率的音乐和DSD音乐进行转换
-![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-dsp.png)
+![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-dsp.png)
 
 ## 最终效果
 
 这下，就可以在Roon系统中使用Huawei智能音箱了
-![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesroon-final.png)
+![打开SqueezeBox设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-final.png)
 
 
 ## 使用docker运行squeeze2upnp
@@ -248,40 +248,40 @@ squeeze2upnp-x86-64-static -x config.xml
 上面的squeeze2upnp安装过程依赖命令行，有点复杂，我简单做了一个docker镜像，在群晖上可以通过docker套件的界面来部署squeeze2upnp
 
 首先需要在群晖上安装官方的docker套件：
-![Docker套件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-package.png)
+![Docker套件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-package.png)
 
 打开Docker套件界面搜索镜像hjianhao/hjianhao-squeeze2upnp
-![搜索镜像](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-search.png)
+![搜索镜像](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-search.png)
 
 搜索到镜像后下载，并在映像界面启动容器
-![启动容器](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-images.png)
+![启动容器](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-images.png)
 
 选择高级设置
-![高级设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-create-container.png)
+![高级设置](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-create-container.png)
 
 在NAS上创建一个保存配置文件(config.xml)的目录，并挂接到容器的/config目录
-![挂载配置目录](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-mount.png)
+![挂载配置目录](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-mount.png)
 
 因为squeezeupnp涉及范围端口的使用，所以使用host网络
-![配置网络](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-network.png)
+![配置网络](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-network.png)
 
 应用后，一路“下一步”即可启动容器。
-![创建容器](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-container-start.png)
+![创建容器](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-container-start.png)
 
 第一次容器虽然启动了，但是功能是失效的，从上面的说明可以看到此时还没有配置文件（config.xml), 点击“详情”按钮弹出容器信息窗口，从“日志”标签中可以看到，加载配置文件失败
-![启动失败日志](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-container-log.png)
+![启动失败日志](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-container-log.png)
 
 此时我们进入“终端”标签，执行/squeeze2upnp/find.sh，用于发现DLNA Render设备，并生成配置文件
-![发现设备](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-terminal.png)
+![发现设备](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-terminal.png)
 
 执行完成后，使用“Ctrl+D”退出并停止容器运行。此时在你挂载的配置文件目录中就会有"Config.xml"配置文件。
-![配置文件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesconfig-file.png)
+![配置文件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/config-file.png)
 
 然后配置按前面对配置文件的描述修改配置文件，再重启容器即可。重启容器前最好将自动重启勾上
-![配置文件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-container-restart.png)
+![配置文件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-container-restart.png)
 
 启动成功后，只有一行日志
-![配置文件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesdocker-successful.png)
+![配置文件](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/docker-successful.png)
 
 # 通过桥连接解码器
 
@@ -289,18 +289,18 @@ squeeze2upnp-x86-64-static -x config.xml
 
 1. 也可以通过RAAT接入Roon Ready的解码器（前提是解码器支持Roon Ready）
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-raat.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images//roon-raat.png)
 
 这种方式比较简单，只要你的解码器支持Roon Ready且解码器和Roon core在同一个局域网网段，就可以相互发现，不用配置。因为简单且我的解码器不支持Roon Ready就不在这里赘述了
 
 
 2. Roon Core通过USB输出接入解码器，包括直接接入到解码器的USB输入，或者通过解码器界面转换为同轴和光纤输入解码器
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-usb.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images//roon-usb.png)
 
 3. Roon Core通过RAAT协议接入Roon Bridge，然后Roon Bridge接入解码器，接入方式和上面说的Roon Core类似
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/roon-bridge.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images//roon-bridge.png)
 
 
 这里主要介绍第三种，因为Bridge可以:
@@ -366,7 +366,7 @@ card 0: sndrpihifiberry [snd_rpi_hifiberry_digi], device 0: HifiBerry Digi HiFi 
 2. 申请一个免费域名，同时将域名设置动态映射。这个每家域名提供商具体不一样，根据指导去配。
 
 3. 公网IP一般是动态的，会变化的，使用DDNS来做动态映射，以下以梅林固件的路由器为例：
-![设置DDNS](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesddns.png)
+![设置DDNS](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/ddns.png)
 服务器选择不同域名提供商，然后输入用户名等参数
 
 ## 搭建VPN服务器
@@ -374,17 +374,17 @@ card 0: sndrpihifiberry [snd_rpi_hifiberry_digi], device 0: HifiBerry Digi HiFi 
 以群晖NAS为例
 
 1. 安装VPN Server套件
-![安装VPN Server](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesinstall-vpn.png)
+![安装VPN Server](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/install-vpn.png)
 
 2. 启动L2TP/IPSec服务器
-![启动L2TP/IPSec服务器](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesenable-l2tp.png)
+![启动L2TP/IPSec服务器](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/enable-l2tp.png)
 其中10.2.0.0是VPN虚拟机局域网的网段
 
 3. 在路由器做端口映射，将以下端口流量导向NAS
 UDP:500
 UDP:4500
 UDP:1701
-![端口映射](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesl2tp-nat.png)
+![端口映射](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/l2tp-nat.png)
 
 或者也可以通过DMZ映射到NAS服务器地址
 
@@ -397,13 +397,13 @@ UDP:1701
 修改完最好重启
 
 2. 创建连接
-![在Windows上创建VPN连接](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesvpn-client.png)
+![在Windows上创建VPN连接](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/vpn-client.png)
 其中
 a. 用户名和密码是你创建VPN服务器的NAS用户用户名和密码
 b. 共享密钥是第2步设置的预共享密钥
 
 3. 进行连接
-![在Windows上创建VPN连接](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesvpn-connect.png)
+![在Windows上创建VPN连接](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/vpn-connect.png)
 
 连接后会增加一个虚拟网卡
 
@@ -427,12 +427,12 @@ ping 192.168.1.100
 
 此时你看到Roon Core的IP地址是刚才建立的VPN的网段（Core机器上也有一个虚拟网卡）
 
-![ROON Core IP](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagescore-ip.png)
+![ROON Core IP](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/core-ip.png)
 
 同时也可以发现远程Windows机器上连接的音频设备用于播放
 
 
-![Remote Audio](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesaudio-device.png)
+![Remote Audio](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/audio-device.png)
 
 # 使用旁路由让NAS科学上网
 
@@ -555,19 +555,19 @@ config interface 'lan'
 
 从这里进入
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesopenwrt-lan-modify.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/openwrt-lan-modify.png)
 
 在基本设置中勾上不提供DHCP
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesopenwrt-lan-dhcp.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/openwrt-lan-dhcp.png)
 
 在物理设置中取消桥接接口
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesopenwrt-lan-bridge.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/openwrt-lan-bridge.png)
 
 9. 设置主路由器的DHCP，将网关指向旁路由
 
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesrouter-dhcp.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/router-dhcp.png)
 每个路由都不太一样，但是都有类似设置。
 部分华为路由器没提供这个设置，只能在主路由关闭DHCP，由旁路由提供DHCP
 
@@ -580,14 +580,14 @@ config interface 'lan'
 openwrt提供了多个科学上网客户端，以下以ShadowSocksR Plus+为例进行说明
 
 1. 添加鸡场订阅
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesssr-server.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/ssr-server.png)
 
 2. 更新订阅添加线路
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesssr-nodes.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/ssr-nodes.png)
 
 3. 选择线路
 根据ping测试的时延选择线路点击应用就可以启动
-![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/imagesssr-client.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/Roon/images/ssr-client.png)
 
 
 ## 解决宿主机不能联网的问题
