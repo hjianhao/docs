@@ -114,6 +114,15 @@ zhihu-url: https://zhuanlan.zhihu.com/p/449344466
 
 注意记得要点那个应用到整个系统的按钮
 
+另外搜狗输入法有些不稳定，这个要看运气，希望稳定的可以考虑使用谷歌拼音输入法
+
+安装命令
+``` bash
+sudo apt-get install fcitx-googlepinyin
+```
+
+谷歌拼音输入法的设置流程也可以参考搜狗拼音输入法的帮助，键盘输入切换到fcitx。
+
 ### KeePass
 
 KeePass是我一直使用的软件，提升密码安全性，每个网站/APP使用不同的密码，密码随机生成。这个软件有Linux版本。安装命令如下：
