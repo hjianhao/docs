@@ -419,3 +419,41 @@ sudo apt-get install deepin.com.qq.im
 # 安装TIM
 sudo apt-get install deepin.com.qq.office
 ```
+
+在微信输入中文的时候，可能会出现输入的文字的都是方框，我搜索了很多方法，以下方法我试用有效
+
+1. 下载微软雅黑字体
+下载的地方很多，下面地址可以下载
+https://github.com/owent-utils/font/blob/master/%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91/MSYH.TTC
+
+2. 將字体复制到指定的位置
+``` bash
+cp /path/to/MSYH.TTC ~/.deepinwine/Deepin-WeChat/drive_c/windows/Fonts/msyh.ttc
+```
+
+3. 將字体注册到 Wine：
+编辑~/.deepinwine/Deepin-WeChat/font.reg文件，输入以下内容
+```bash
+REGEDIT4
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontSubstitutes]
+"MS Shell Dlg"="msyh"
+"MS Shell Dlg 2"="msyh"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink]
+"Lucida Sans Unicode"="msyh.ttc"
+"Microsoft Sans Serif"="msyh.ttc"
+"MS Sans Serif"="msyh.ttc"
+"Tahoma"="msyh.ttc"
+"Tahoma Bold"="msyhbd.ttc"
+"msyh"="msyh.ttc"
+"Arial"="msyh.ttc"
+"Arial Black"="msyh.ttc"
+```
+
+执行一下命令
+```bash
+~/.deepinwine/Deepin-WeChat/ deepin-wine regedit ~/.deepinwine/Deepin-WeChat/font.reg
+```
+备注：根据安装的版本不同deepin-wine可执行文件名字不一定相同，比如我安装的版本，上面的deepin-wine换为deepin-wine6-stable，具体可以到/usr/bin目录下搜索deepin看看。
+
+4. 重启微信就可以正确输入中文了。 
