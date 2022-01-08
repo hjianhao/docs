@@ -128,30 +128,30 @@ kindle看TXT文件有个问题就是不能自动提取目录。可以通过其�
 
 建议将公众号添加你桌面首页，后续比较好进入
 
-![](images/kindle-book-src/send-to-kindle-1.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/send-to-kindle-1.png)
 
 
 以开发者头条为例，我们看中一篇长文，想要送到kindle上阅读，选择用浏览器打开(其实很多软件的分享里面有拷贝连接地址的选项，就不用使用浏览器打开了，技术头条没有这个选择，只好借助浏览器)，然后在浏览器中拷贝地址，最后到桌面打开亚马逊公众号发送地址就可以了。
 
-![](images/kindle-book-src/send-to-kindle-2.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/send-to-kindle-2.png)
 
-![](images/kindle-book-src/send-to-kindle-3.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/send-to-kindle-3.png)
 
-![](images/kindle-book-src/send-to-kindle-1.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/send-to-kindle-1.png)
 
 今日头条，知乎等都有拷贝链接，这样只要打开公众号发送即可，只需两步。
 
 在kindle上看还是比较舒服的。
 
-![](images/kindle-book-src/send-to-kindle-4.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/send-to-kindle-4.png)
 
 另外有一个需要注意的事情，看Send to Kindle发送的文档，目前只能用kindle自带的字体，用自定义字体打开文档直接就出错，然后其他书也打不开了。需要重启kindle.
 
 微信公众号长文发送kindle更容易，打开文章，选择左上角"…"，然后选择复制链接，然后在亚马逊公众号发送即可。kindle看，效果棒棒的。 不过kindle不支持动图。
 
-![](images/kindle-book-src/send-to-kindle-5.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/send-to-kindle-5.png)
 
-![](images/kindle-book-src/send-to-kindle-6.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/send-to-kindle-6.png)
 
 # 如何看RSS
 
@@ -190,4 +190,4 @@ kindle看TXT文件有个问题就是不能自动提取目录。可以通过其�
 
 # 手机配合Kindle全景图
 
-![](images/kindle-book-src/overview.png)
+![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/overview.png)
