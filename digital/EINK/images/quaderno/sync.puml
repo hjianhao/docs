@@ -1,0 +1,68 @@
+@startuml
+
+
+
+node "PC/Mac" as pc {
+    component "QUADERNO PC App" as pcapp
+
+    folder "同步空间本地文件夹" as pdffoldersync {
+        file "在Quaderno上\n阅读和批注的文件\n及记录的笔记\n(都是PDF格式）" as pdffilepc
+    }
+
+    pcapp --> pdffilepc
+
+    component "百度网盘App" as netdiskapp
+
+    netdiskapp <--> pdffilepc 
+}
+
+cloud "百度网盘" as netdisk {
+    folder "同步空间" as pdffoldernet {
+        file "在Quaderno上\n阅读和批注的文件\n及记录的笔记\n(都是PDF格式）" as pdffilenet
+    }
+
+    folder "书库" as pdffolderlib {
+        file "完整书库" as pdffilelib
+    }
+
+    pdffilelib --> pdffilenet : 需要阅读时拷贝到同步空间
+
+    netdiskapp <-u-> pdffilenet : 将本地PDF文件夹\n与同步空间同步(双向)
+}
+
+node "Quaderno A4 Gen.2" as quaderno {
+    component "Quaderno同步服务" as synceink
+
+    synceink <-l-> pcapp : 同步PC和电纸书\n的修改（双向）
+
+    folder "本地电子书文件夹" as pdffoldereink {
+        file "在Quaderno上\n阅读和批注的文件\n及记录的笔记\n(都是PDF格式）" as pdffileeink
+    }
+
+    synceink <--> pdffileeink : 将PC修改同步到本地
+
+    component "Quaderno阅读/批注软件" as einkapp
+
+    synceink -[hidden] einkapp
+
+    einkapp --> pdffileeink : 读取和修改PDF文件
+}
+
+pdffilepc <.> pdffilenet
+
+pdffilepc <.> pdffileeink
+
+node "手机" {
+    component "QUADERNO Mobile App" as app
+
+    app --> synceink : 通过Quaderno设备的热点\n将书传递到Quaderno设备
+
+    component "百度网盘" as netdiskmobile
+
+    netdiskmobile -u-> pdffilelib : 下载电子书
+
+    netdiskmobile -> app : 将电子书分享给QUADERNO APP
+
+}
+
+@enduml
