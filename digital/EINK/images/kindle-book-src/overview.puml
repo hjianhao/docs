@@ -1,4 +1,4 @@
-@startuml
+@startuml kindle-overview
 
 node Kindle as kindle {
     component 浏览器 as kbrow
@@ -23,7 +23,7 @@ node 手机 as Phone {
     lgenius --> pllib : 读取本地书库
     esfb --> pllib
     baiduclient --> pllib
-    openreader --> pllib : 将缓存导出TXT
+    openreader --> pllib : 缓存书籍并导出\nTXT，EPUB
     kaf -> pllib : 读取TXT转换为mobi
     mailclient --> pllib
     lgenius -[hidden]> mailclient
@@ -49,7 +49,7 @@ cloud "KAF服务器\n(可自己搭建)" as kafcloud
 kaf --> kafcloud : 上传txt转换mobi
 
 cloud "亚马逊文档服务" as adcloud
-mailclient -u-> adcloud : 发送电子书
+mailclient -u-> adcloud : 发送电子书\n(epub,mobi...)
 adcloud --> kllib : （转换）发送到kindle
 
 cloud "Kindle书店" as kshopcloud
