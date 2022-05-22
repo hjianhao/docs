@@ -31,6 +31,7 @@ zhihu-url: https://zhuanlan.zhihu.com/p/454737620
   - [如何看实现稍后读](#如何看实现稍后读)
   - [如何看RSS](#如何看rss)
   - [Z-Library](#z-library)
+  - [关于越狱](#关于越狱)
   - [手机配合Kindle全景图](#手机配合kindle全景图)
 
 <!-- /code_chunk_output -->
@@ -326,6 +327,22 @@ kindle看TXT文件有个问题就是不能自动提取目录。可以通过其�
 
 Z-Library网址经常变，我当前能打开的网址： book4you.org
 
+## 关于越狱
+
+如何越狱参见书伴网：https://bookfere.com/post/970.html
+
+越狱后安装插件也可以参见书伴网： https://bookfere.com/post/311.html
+
+我安装了以下插件
+1. koreader，主要是可以看多种格式的电子书，尤其是epub和PDF。
+- PDF阅读远比kindle原生强大，可以重排，切边，调节对比度等。
+- epub目前kindle支持推送个人文档后，koreader的作用反而弱了。但是一些情况下也可以用koreader查看个人文档。例如手头没有电脑，没法对epub文档进行修正，导致无法推送到kindle，可以直接放到kindle上用koreader观看。另外超过50M的epub也可以用koreader观看（不过不建议，koreader打开大的epub文件很慢）
+- koreader可以启动SSH服务器，手机上用ES文件浏览器可以通过SFTP连接传书，很方便
+
+2. File Browser，可以启动一个Web的文件管理器。手机和电脑通过浏览器打开后，就可以直接管理Kindle上的文件和上传新的文件，非常方便。 
+
 ## 手机配合Kindle全景图
 
 ![](https://gitee.com/hjianhao/docs/raw/main/digital/EINK/images/kindle-book-src/overview.png)
+
+粉色是越狱后才能安装在kindle的插件
