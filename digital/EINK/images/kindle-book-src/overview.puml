@@ -3,9 +3,13 @@
 node Kindle as kindle {
     component 浏览器 as kbrow
     component 商店 as kshop
+    component "File Browser" as fb #Pink
+    component "koreader" as koreader #Pink
     database 本地书库 as kllib
     kshop --> kllib : 购买后下载
     kbrow --> kllib : 下载后保存
+    fb -u-> kllib : 管理本地文件
+    koreader -u-> kllib : 阅读各种格式电子书
 }
 
 node 手机 as Phone {
@@ -18,21 +22,23 @@ node 手机 as Phone {
     component "浏览器" as pbrow
     component "微信Send to Kindle服务" as s2k
     database "本地书库\n(txt,mobi,azw3,pdf...)" as pllib
-    
+
     kbrow -> lgenius : 下载书籍\n(mobi, azw3...)
     lgenius --> pllib : 读取本地书库
     esfb --> pllib
     baiduclient --> pllib
     openreader --> pllib : 缓存书籍并导出\nTXT，EPUB
-    kaf -> pllib : 读取TXT转换为mobi
+    kaf --> pllib : 读取TXT转换为mobi
     mailclient --> pllib
     lgenius -[hidden]> mailclient
     mailclient -[hidden]> esfb
     esfb -[hidden]> baiduclient
-    lgenius -[hidden]-> kaf
+
     baiduclient -[hidden]r-> openreader
     pbrow -[hidden]-> s2k
     kbrow -> kaf : 下载书籍\n(mobi)
+    pbrow --> fb : 上传书籍
+    esfb --> koreader : 通过sftp传书
 }
 
 cloud 百度网盘 as baiducloud
@@ -44,6 +50,7 @@ esfb -u-> webdavcloud : 上传和\n下载电子书
 
 cloud 微信读书云 as weread
 kbrow -u-> weread : 微信读书kindle版网页
+kshop -[hidden]l- weread
 
 cloud "KAF服务器\n(可自己搭建)" as kafcloud
 kaf --> kafcloud : 上传txt转换mobi
