@@ -1,12 +1,12 @@
 ---
 title: 搭建一个用于工作和学习的Linux桌面环境的尝试
 zhihu-url: https://zhuanlan.zhihu.com/p/449344466
+zhihu-tags: Linux, Ubuntu, Desktop
 ---
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
-- [概述](#概述)
 - [概述](#概述)
 - [折腾过程](#折腾过程)
   - [操作系统](#操作系统)
