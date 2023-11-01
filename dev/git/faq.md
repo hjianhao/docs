@@ -50,12 +50,18 @@ git config --global user.email "hjianhao@hotmail.com"
 
 ## 配置代理
 
-设置代理
+设置全局代理
 
 ``` bash
 git config --global https.proxy [http://127.0.0.1:1080](http://127.0.0.1:1080/)
 git config --global https.proxy [https://127.0.0.1:1080](https://127.0.0.1:1080/)
 ```
+
+为指定的仓库域名设置代理（推荐）
+``` bash
+git config --global http.<http(s)://域名>.proxy https://127.0.0.1:1080
+```
+
 
 取消代理
 
