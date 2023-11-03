@@ -18,4 +18,20 @@ Project Settings -> Project -> Project language level
 3. 勾选以下两项
     * Add unambiguous imports on the fly
     * Optimize imports on the fly
-    
+
+
+# WSL
+
+官方WSL说明：
+https://www.jetbrains.com/help/idea/how-to-use-wsl-development-environment-in-product.html
+
+Maven构建找不到setttings.xml如何解决
+错误类似下面的描述：
+```bash
+/home/dimitrda/apache-maven-3.8.4/bin/mvn -Dmaven.ext.class.path=/mnt/c/Users/dimitrda/UBS/Dev/opt/idea/plugins/maven/lib/maven-event-listener.jar test -s \\wsl$\wsl-fatty\home\dimitrda\philadelphia\settings.xml
+[ERROR] Error executing Maven.
+[ERROR] The specified user settings file does not exist: /home/dimitrda/philadelphia/\\wsl$\wsl-fatty\home\dimitrda\philadelphia\settings.xml
+```
+错误表现为：settings的路径前面多了项目的路径：/home/dimitrda/philadelphia/
+
+https://youtrack.jetbrains.com/issue/IDEA-292386/Maven-in-WSL-fails-if-custom-settings.xml-is-picked-with-the-file-picker
