@@ -19,6 +19,13 @@ Project Settings -> Project -> Project language level
     * Add unambiguous imports on the fly
     * Optimize imports on the fly
 
+# 操作快捷键
+
+## 搜索
+
+搜索 : Ctrl+ Shift + N, 然后选择要搜索的内容，如类
+
+搜索类： Ctrl + N
 
 # WSL
 
