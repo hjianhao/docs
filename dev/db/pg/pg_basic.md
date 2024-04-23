@@ -12,6 +12,7 @@
   - [安装数据库服务和创建数据](#安装数据库服务和创建数据)
     - [安装数据库服务](#安装数据库服务)
     - [创建数据库](#创建数据库)
+    - [将数据库服务注册到Windows服务](#将数据库服务注册到windows服务)
   - [用户创建和授权](#用户创建和授权)
     - [创建新用户](#创建新用户)
     - [将数据库权限赋予用户](#将数据库权限赋予用户)
@@ -60,6 +61,19 @@ CREATE DATABASE mydatabase;
 3. 查看数据库
 ``` sql
 \l
+```
+
+### 将数据库服务注册到Windows服务
+
+1. 注册服务
+```bash
+pg_ctl register -N "PostgreSQL" -D "C:\Program Files\PostgreSQL\14\data" -U "NT AUTHORITY\NetworkService"
+```
+这里，-N 指定服务名称，-D 指定数据目录，-U 指定运行服务的 Windows 用户账户。NT AUTHORITY\NetworkService 是推荐用于网络服务的账户，但你也可以根据需要指定其他账户。
+
+2. 启动服务
+```shell
+net start PostgreSQL
 ```
 
 ## 用户创建和授权
