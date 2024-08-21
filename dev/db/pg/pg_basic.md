@@ -62,8 +62,7 @@ CREATE DATABASE mydatabase;
 ``` sql
 \l
 ```
-
-### 将数据库服务注册到Windows服务
+ 服务 
 
 1. 注册服务
 ```bash
